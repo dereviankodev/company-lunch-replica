@@ -1,0 +1,65 @@
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+type Query {
+    users: [User!]! @all
+    user(id: ID @eq): User @find
+}
+
+type Mutation {
+    createUser(
+        name: String!,
+        email: String!,
+        password: String! @trim @rules(apply: ["min:8"]) @hash
+    ): User! @create
+
+    updateUser(
+        id: ID!,
+        name: String,
+        email: String,
+        password: String @trim @rules(apply: ["min:8"]) @hash
+    ): User @update
+
+    deleteUser(id: ID!): User @delete
+}
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+#type Category {
+#    id: ID!
+#    dishes: [Dish]
+#    menus: [Menu!]!
+#    name: String!
+#    created_at: DateTime!
+#    updated_at: DateTime!
+#}
+#
+#type Dish {
+#    id: ID!
+#    category: Category
+#    name: String!
+#    ingredients: String!
+#    weight: String!
+#    category: Category
+#    created_at: DateTime!
+#    updated_at: DateTime!
+#}
+#
+#type Menu {
+#    id: ID!
+#    price: Int!
+#    actual_at: Date!
+#    created_at: DateTime!
+#    updated_at: DateTime!
+#
+#    dish: Dish
+#}
