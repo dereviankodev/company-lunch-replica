@@ -16,7 +16,7 @@ class Order extends Model
         'friend_id'
     ];
 
-    public function items(): HasMany
+    public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }
