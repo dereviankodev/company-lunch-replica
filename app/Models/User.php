@@ -37,9 +37,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
-
-    public function gifts(): HasMany
-    {
-        return $this->hasMany(Order::class, 'friend_id');
-    }
 }
