@@ -11,7 +11,7 @@ class CreateDishesTable extends Migration
         Schema::create('dishes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('ingredients');
             $table->unsignedSmallInteger('weight');
             $table->timestamps();

@@ -12,7 +12,7 @@ class CreateMenusTable extends Migration
             $table->id();
             $table->foreignId('dish_id')->constrained();
             $table->unsignedSmallInteger('price');
-            $table->timestamp('actual_at');
+            $table->date('actual_at');
             $table->timestamps();
         });
     }
