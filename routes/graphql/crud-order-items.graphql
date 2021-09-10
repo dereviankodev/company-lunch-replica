@@ -1,0 +1,33 @@
+#query {
+#    orderItems {
+#        id
+#        price
+#        count
+#        created_at
+#        updated_at
+#        order {
+#            id
+#            created_at
+#            updated_at
+#            customer {
+#                id
+#                name
+#                email
+#            }
+#            recipient {
+#                id
+#                name
+#                email
+#            }
+#        }
+#        dish {
+#            id
+#            ingredients
+#            weight
+#            category {
+#                id
+#                name
+#            }
+#        }
+#    }
+#}

@@ -1,0 +1,72 @@
+#query {
+#    dishes {
+#        id
+#        name
+#        ingredients
+#        weight
+#        created_at
+#        updated_at
+#        category {
+#            id
+#            name
+#        }
+#    }
+#}
+
+# query {
+#   dish(id: 1) {
+#     id
+#     name
+#     ingredients
+#     weight
+#     created_at
+#     updated_at
+#     category {
+#       id
+#       name
+#     }
+#   }
+# }
+
+# mutation {
+#   createDish(
+#     name: "Mashed potatoes"
+#     ingredients: "qui, voluptate, necessitatibus"
+#     weight: "270"
+#     category_id: 1
+#   ) {
+#     id
+#     name
+#     ingredients
+#     weight
+#     category {
+#       id
+#       name
+#     }
+#   }
+# }
+
+# mutation {
+#   updateDish(
+#     id: 1
+#     name: "Mashed potatoes"
+#     ingredients: "qui, voluptate, necessitatibus"
+#     weight: "270"
+#     category_id: 2
+#   ) {
+#     id
+#     name
+#     ingredients
+#     weight
+#     category {
+#       id
+#       name
+#     }
+#   }
+# }
+
+# mutation {
+#   deleteDish(id: 1) {
+#     name
+#   }
+# }

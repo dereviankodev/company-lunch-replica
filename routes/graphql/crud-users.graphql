@@ -1,0 +1,48 @@
+#query {
+#    users {
+#        id
+#        name
+#        email
+#        created_at
+#        updated_at
+#    }
+#}
+
+# query {
+#   user(id: 1) {
+#     id
+#     name
+#     email
+#     created_at
+#     updated_at
+#   }
+# }
+
+# mutation {
+#   createUser(
+#     name: "Anton Derevianko"
+#     email: "derevianko@quartsoft.com"
+#     password: "2D56i5bNwqiJjtd" # Only dev on local server
+#   ) {
+#     id
+#     name
+#     email
+#     created_at
+#     updated_at
+#   }
+# }
+
+# mutation {
+#   updateUser(id: 1, name: "Update User", password: "password") {
+#     id
+#     name
+#     email
+#   }
+# }
+
+# mutation {
+#   deleteUser(id: 1) {
+#     name
+#     email
+#   }
+# }

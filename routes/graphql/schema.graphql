@@ -4,28 +4,6 @@ scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 "A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
-type Query {
-    users: [User!]! @all
-    user(id: ID @eq): User @find
-}
-
-type Mutation {
-    createUser(
-        name: String!,
-        email: String!,
-        password: String! @trim @rules(apply: ["min:8"]) @hash
-    ): User! @create
-
-    updateUser(
-        id: ID!,
-        name: String,
-        email: String,
-        password: String @trim @rules(apply: ["min:8"]) @hash
-    ): User @update
-
-    deleteUser(id: ID!): User @delete
-}
-
 type User {
     id: ID!
     name: String!
@@ -34,32 +12,146 @@ type User {
     updated_at: DateTime!
 }
 
-#type Category {
-#    id: ID!
-#    dishes: [Dish]
-#    menus: [Menu!]!
-#    name: String!
-#    created_at: DateTime!
-#    updated_at: DateTime!
-#}
-#
-#type Dish {
-#    id: ID!
-#    category: Category
-#    name: String!
-#    ingredients: String!
-#    weight: String!
-#    category: Category
-#    created_at: DateTime!
-#    updated_at: DateTime!
-#}
-#
-#type Menu {
-#    id: ID!
-#    price: Int!
-#    actual_at: Date!
-#    created_at: DateTime!
-#    updated_at: DateTime!
-#
-#    dish: Dish
-#}
+type Category {
+    id: ID!
+    name: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+
+    dishes: [Dish!]! @hasMany
+}
+
+type Dish {
+    id: ID!
+    name: String!
+    ingredients: String!
+    weight: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    category: Category! @belongsTo
+}
+
+type Menu {
+    id: ID!
+    price: Int!
+    actual_at: Date!
+    created_at: DateTime!
+    updated_at: DateTime!
+    dish: Dish! @belongsTo
+}
+
+type Order {
+    id: ID!
+    created_at: DateTime!
+    updated_at: DateTime!
+    customer: User! @belongsTo
+    recipient: User @belongsTo
+}
+
+type OrderItem {
+    id: ID!
+    price: Int!
+    count: Int!
+    created_at: DateTime!
+    updated_at: DateTime!
+    order: Order! @belongsTo
+    dish: Dish! @belongsTo
+}
+
+type Query {
+    users: [User!]! @all
+    user(id: ID @eq): User @find
+
+    categories: [Category!]! @all
+    category(id: ID @eq): Category @find
+
+    dishes: [Dish!]! @all
+    dish(id: ID @eq): Dish @find
+
+    menus: [Menu!]! @all
+    menu(id: ID @eq): Menu @find
+
+    orders: [Order!]! @all
+    order(id: ID @eq): Order @find
+
+    orderItems: [OrderItem!]! @all
+    orderItem(id: ID @eq): OrderItem @find
+}
+
+type Mutation {
+    createUser(
+        name: String!
+        email: String! @rules(apply: ["email", "unique:users"])
+        password: String! @rules(apply: ["min:8"]) @hash
+    ): User! @create
+    updateUser(
+        id: ID!
+        name: String
+        email: String
+        password: String @rules(apply: ["min:8"]) @hash
+    ): User @update
+    deleteUser(id: ID!): User @delete
+
+    createCategory(
+        name: String! @rules(apply: ["unique:categories"])
+    ): Category! @create
+    updateCategory(
+        id: ID!
+        name: String @rules(apply: ["unique:categories"])
+    ): Category @update
+    deleteCategory(id: ID!): Category @delete
+
+    createDish(
+        category_id: ID!
+        name: String! @rules(apply: ["unique:dishes"])
+        ingredients: String!
+        weight: String!
+    ): Dish! @create
+    updateDish(
+        id: ID!
+        category_id: ID
+        name: String @rules(apply: ["unique:dishes"])
+        ingredients: String
+        weight: String
+    ): Dish @update
+    deleteDish(id: ID!): Dish @delete
+
+    createMenu(
+        dish_id: ID!
+        price: Int!
+        actual_at: Date!
+    ): Menu! @create
+    updateMenu(
+        id: ID!
+        dish_id: ID
+        price: Int
+        actual_at: Date
+    ): Menu @update
+    deleteMenu(id: ID!): Menu @delete
+
+    createOrder(
+        customer_id: ID!
+        recipient_id: ID
+    ): Order! @create
+    updateOrder(
+        id: ID!
+        customer_id: ID
+        recipient_id: ID
+    ): Order @update
+    deleteOrder(id: ID!): Order @delete
+
+    createOrderItem(
+        order_id: ID!
+        dish_id: ID!
+        price: Int!
+        count: Int!
+    ): OrderItem! @create
+    updateOrderItem(
+        id: ID!
+        order_id: ID
+        dish_id: ID
+        price: Int
+        count: Int
+    ): OrderItem @update
+    deleteOrderItem(id: ID!): OrderItem @delete
+}

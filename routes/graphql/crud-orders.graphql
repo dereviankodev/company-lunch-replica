@@ -1,0 +1,92 @@
+#query {
+#    orders {
+#        id
+#        created_at
+#        updated_at
+#        customer {
+#            id
+#            name
+#            email
+#        }
+#        recipient {
+#            id
+#            name
+#            email
+#        }
+#    }
+#}
+
+# query {
+#   order(id: 1) {
+#     id
+#     created_at
+#     updated_at
+#     customer {
+#       id
+#       name
+#       email
+#     }
+#     recipient {
+#       id
+#       name
+#       email
+#     }
+#   }
+# }
+
+# mutation {
+#   createOrder(
+#     customer_id: 2
+#     # recipient_id: 45
+#   ) {
+#     created_at
+#     updated_at
+#     customer {
+#       id
+#       name
+#       email
+#     }
+#     recipient {
+#       id
+#       name
+#       email
+#     }
+#   }
+# }
+
+# mutation {
+#   updateOrder(
+#     id: 1
+#     customer_id: 20
+#     # recipient_id: 21
+#     # recipient_id: null
+#   ) {
+#     created_at
+#     updated_at
+#     customer {
+#       id
+#       name
+#       email
+#     }
+#     recipient {
+#       id
+#       name
+#       email
+#     }
+#   }
+# }
+
+# mutation {
+#   deleteOrder(id: 1) {
+#     customer {
+#       id
+#       name
+#       email
+#     }
+#     recipient {
+#       id
+#       name
+#       email
+#     }
+#   }
+# }

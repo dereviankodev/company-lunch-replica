@@ -1,0 +1,92 @@
+#query {
+#    menus {
+#        id
+#        price
+#        actual_at
+#        created_at
+#        updated_at
+#        dish {
+#            id
+#            name
+#            ingredients
+#            weight
+#            category {
+#                id
+#                name
+#            }
+#        }
+#    }
+#}
+
+# query {
+#   menu(id: 1) {
+#     id
+#     price
+#     actual_at
+#     created_at
+#     updated_at
+#     dish {
+#       id
+#       name
+#       ingredients
+#       weight
+#       category {
+#         id
+#         name
+#       }
+#     }
+#   }
+# }
+
+# mutation {
+#   createMenu(
+#     dish_id: 1
+#     price: 220
+#     actual_at: "2021-09-10"
+#   ) {
+#     id
+#     price
+#     actual_at
+#     created_at
+#     updated_at
+#     dish {
+#       id
+#       name
+#       category {
+#         id
+#         name
+#       }
+#     }
+#   }
+# }
+
+# mutation {
+#   updateMenu(
+#     id: 118
+#     dish_id: 1
+#     price: 220
+#     actual_at: "2021-09-10"
+#   ) {
+#     id
+#     price
+#     actual_at
+#     created_at
+#     updated_at
+#     dish {
+#       id
+#       name
+#       category {
+#         id
+#         name
+#       }
+#     }
+#   }
+# }
+
+# mutation {
+#   deleteMenu(id: 118) {
+#      dish {
+#       name
+#     }
+#   }
+# }
