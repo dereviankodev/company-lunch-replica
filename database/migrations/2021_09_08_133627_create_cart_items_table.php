@@ -14,6 +14,7 @@ class CreateCartItemsTable extends Migration
             $table->foreignId('menu_id')->constrained();
             $table->unsignedSmallInteger('price');
             $table->unsignedSmallInteger('count');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

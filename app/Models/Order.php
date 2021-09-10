@@ -2,18 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\{
+    Factories\HasFactory,
+    Model,
+    Relations\BelongsTo,
+    Relations\HasMany,
+    SoftDeletes
+};
 
 class Order extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     public $fillable = [
-        'user_id',
-        'friend_id'
+        'customer_id',
+        'recipient_id'
     ];
 
     public function orderItems(): HasMany
@@ -21,13 +25,13 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    public function user(): BelongsTo
+    public function customer(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'customer_id');
     }
 
-    public function friend(): BelongsTo
+    public function recipient(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'friend_id');
+        return $this->belongsTo(User::class, 'recipient_id');
     }
 }

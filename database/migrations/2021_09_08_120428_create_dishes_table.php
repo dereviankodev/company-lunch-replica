@@ -14,6 +14,7 @@ class CreateDishesTable extends Migration
             $table->string('name')->unique();
             $table->string('ingredients');
             $table->unsignedSmallInteger('weight');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

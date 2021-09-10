@@ -14,6 +14,7 @@ class CreateOrderItemsTable extends Migration
             $table->foreignId('dish_id')->constrained();
             $table->unsignedSmallInteger('price');
             $table->unsignedSmallInteger('count');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
