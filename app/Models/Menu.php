@@ -22,7 +22,7 @@ class Menu extends Model
     ];
 
     protected $casts = [
-        'actual_at' => 'date',
+        'actual_at' => 'date:Y-m-d',
     ];
 
     public function dish(): BelongsTo
