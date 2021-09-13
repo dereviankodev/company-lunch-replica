@@ -8,6 +8,7 @@ type User {
     id: ID!
     name: String!
     email: String!
+    is_admin: Boolean!
     created_at: DateTime!
     updated_at: DateTime!
 
@@ -86,32 +87,32 @@ type Query {
 }
 
 extend type Query @guard {
-    usersPagination: [User!]! @paginate
     users: [User!]! @all @softDeletes
+    usersPagination: [User!]! @paginate @softDeletes
     user(id: ID @eq): User @find
 
-    categoriesPagination: [Category!]! @paginate
     categories: [Category!]! @all @softDeletes
+    categoriesPagination: [Category!]! @paginate @softDeletes
     category(id: ID @eq): Category @find
 
-    dishesPagination: [Dish!]! @paginate
     dishes: [Dish!]! @all @softDeletes
+    dishesPagination: [Dish!]! @paginate @softDeletes
     dish(id: ID @eq): Dish @find
 
-    menusPagination: [Menu!]! @paginate
     menus: [Menu!]! @all @softDeletes
+    menusPagination: [Menu!]! @paginate @softDeletes
     menu(id: ID @eq): Menu @find
 
-    cartsPagination: [Cart!]! @paginate
     carts: [Cart!]! @all @softDeletes
+    cartsPagination: [Cart!]! @paginate @softDeletes
     cart(id: ID @eq): Cart @find
 
-    ordersPagination: [Order!]! @paginate
     orders: [Order!]! @all @softDeletes
+    ordersPagination: [Order!]! @paginate @softDeletes
     order(id: ID @eq): Order @find
 
-    orderItemsPagination: [OrderItem!]! @paginate
     orderItems: [OrderItem!]! @all @softDeletes
+    orderItemsPagination: [OrderItem!]! @paginate @softDeletes
     orderItem(id: ID @eq): OrderItem @find
 }
 
@@ -127,21 +128,23 @@ type Mutation {
         email: String! @rules(apply: ["email", "unique:users"])
         password: String! @rules(apply: ["min:8"]) @hash
     ): User! @create
+
     updateUser(
         id: ID!
         name: String
         email: String
         password: String @rules(apply: ["min:8"]) @hash
-    ): User @update
+    ): User @can(ability: "update", injectArgs: true) @update
+
     upsertUser(
         id: ID!
         name: String!
         email: String!
         password: String! @rules(apply: ["min:8"]) @hash
     ): User @upsert
-    deleteUser(id: ID!): User @delete
-    restoreUser(id: ID!): User @restore
-    forceDeleteUser(id: ID!): User @forceDelete
+    deleteUser(id: ID!): User @can(ability: "delete") @delete
+    restoreUser(id: ID!): User @can(ability: "restore") @restore
+    forceDeleteUser(id: ID!): User @can(ability: "forceDelete") @forceDelete
 
 
     createCategory(
