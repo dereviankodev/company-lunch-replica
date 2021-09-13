@@ -83,25 +83,34 @@ type OrderItem {
 
 type Query {
     me: User @auth
+}
 
+extend type Query @guard {
+    usersPagination: [User!]! @paginate
     users: [User!]! @all @softDeletes
     user(id: ID @eq): User @find
 
+    categoriesPagination: [Category!]! @paginate
     categories: [Category!]! @all @softDeletes
     category(id: ID @eq): Category @find
 
+    dishesPagination: [Dish!]! @paginate
     dishes: [Dish!]! @all @softDeletes
     dish(id: ID @eq): Dish @find
 
+    menusPagination: [Menu!]! @paginate
     menus: [Menu!]! @all @softDeletes
     menu(id: ID @eq): Menu @find
 
+    cartsPagination: [Cart!]! @paginate
     carts: [Cart!]! @all @softDeletes
     cart(id: ID @eq): Cart @find
 
+    ordersPagination: [Order!]! @paginate
     orders: [Order!]! @all @softDeletes
     order(id: ID @eq): Order @find
 
+    orderItemsPagination: [OrderItem!]! @paginate
     orderItems: [OrderItem!]! @all @softDeletes
     orderItem(id: ID @eq): OrderItem @find
 }
@@ -124,7 +133,16 @@ type Mutation {
         email: String
         password: String @rules(apply: ["min:8"]) @hash
     ): User @update
+    upsertUser(
+        id: ID!
+        name: String!
+        email: String!
+        password: String! @rules(apply: ["min:8"]) @hash
+    ): User @upsert
     deleteUser(id: ID!): User @delete
+    restoreUser(id: ID!): User @restore
+    forceDeleteUser(id: ID!): User @forceDelete
+
 
     createCategory(
         name: String! @rules(apply: ["unique:categories"])
@@ -133,7 +151,13 @@ type Mutation {
         id: ID!
         name: String @rules(apply: ["unique:categories"])
     ): Category @update
+    upsertCategory(
+        id: ID!
+        name: String! @rules(apply: ["unique:categories"])
+    ): Category @upsert
     deleteCategory(id: ID!): Category @delete
+    restoreCategory(id: ID!): Category @restore
+    forceDeleteCategory(id: ID!): Category @forceDelete
 
     createDish(
         category_id: ID!
@@ -148,7 +172,16 @@ type Mutation {
         ingredients: String
         weight: String
     ): Dish @update
+    upsertDish(
+        id: ID!
+        category_id: ID!
+        name: String! @rules(apply: ["unique:dishes"])
+        ingredients: String!
+        weight: String!
+    ): Dish @upsert
     deleteDish(id: ID!): Dish @delete
+    restoreDish(id: ID!): Dish @restore
+    forceDeleteDish(id: ID!): Dish @forceDelete
 
     createMenu(
         dish_id: ID!
@@ -161,7 +194,15 @@ type Mutation {
         price: Int
         actual_at: Date
     ): Menu @update
+    upsertMenu(
+        id: ID!
+        dish_id: ID!
+        price: Int!
+        actual_at: Date!
+    ): Menu @upsert
     deleteMenu(id: ID!): Menu @delete
+    restoreMenu(id: ID!): Menu @restore
+    forceDeleteMenu(id: ID!): Menu @forceDelete
 
     createCart(
         user_id: ID!
@@ -176,7 +217,16 @@ type Mutation {
         price: Int
         count: Int
     ): Cart @update
+    upsertCart(
+        id: ID!
+        user_id: ID!
+        menu_id: ID!
+        price: Int!
+        count: Int!
+    ): Cart @upsert
     deleteCart(id: ID!): Cart @delete
+    restoreCart(id: ID!): Cart @restore
+    forceDeleteCart(id: ID!): Cart @forceDelete
 
     createOrder(
         customer_id: ID!
@@ -187,7 +237,14 @@ type Mutation {
         customer_id: ID
         recipient_id: ID
     ): Order @update
+    upsertOrder(
+        id: ID!
+        customer_id: ID!
+        recipient_id: ID!
+    ): Order @upsert
     deleteOrder(id: ID!): Order @delete
+    restoreOrder(id: ID!): Order @restore
+    forceDeleteOrder(id: ID!): Order @forceDelete
 
     createOrderItem(
         order_id: ID!
@@ -202,5 +259,14 @@ type Mutation {
         price: Int
         count: Int
     ): OrderItem @update
+    upsertOrderItem(
+        id: ID!
+        order_id: ID
+        dish_id: ID
+        price: Int
+        count: Int
+    ): OrderItem @upsert
     deleteOrderItem(id: ID!): OrderItem @delete
+    restoreOrderItem(id: ID!): OrderItem @restore
+    forceDeleteOrderItem(id: ID!): OrderItem @forceDelete
 }
