@@ -107,6 +107,12 @@ type Query {
 }
 
 type Mutation {
+    "Log in to a new session and get the user."
+    login(email: String!, password: String!): User!
+
+    "Log out from the current session, showing the user one last time."
+    logout: User @guard
+
     createUser(
         name: String!
         email: String! @rules(apply: ["email", "unique:users"])
