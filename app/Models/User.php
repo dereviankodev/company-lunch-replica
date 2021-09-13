@@ -9,8 +9,16 @@ use Illuminate\Database\Eloquent\{
 };
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property string $id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property bool $is_admin
+ */
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -18,10 +26,13 @@ class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
 
+    private const ROLE_ADMIN = true;
+
     protected $fillable = [
         'name',
         'email',
         'password',
+        'is_admin'
     ];
 
     protected $hidden = [
@@ -31,6 +42,7 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean'
     ];
 
     public function carts(): HasMany
@@ -46,5 +58,13 @@ class User extends Authenticatable
     public function orderRecipients(): HasMany
     {
         return $this->hasMany(Order::class, 'recipient_id');
+    }
+
+    public function isAdmin(): bool
+    {
+        $guard = Auth::guard();
+        $user = $guard->user();
+
+        return $user->is_admin === static::ROLE_ADMIN;
     }
 }
