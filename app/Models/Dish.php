@@ -31,4 +31,9 @@ class Dish extends Model
     {
         return $this->hasMany(Menu::class);
     }
+
+    public function orderItems(): hasMany
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 }

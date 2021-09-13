@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\{
     Factories\HasFactory,
     Model,
     Relations\BelongsTo,
-    Relations\HasMany,
     SoftDeletes
 };
 
@@ -15,8 +14,11 @@ class Cart extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = [
+    public $fillable = [
         'user_id',
+        'menu_id',
+        'price',
+        'count'
     ];
 
     public function user(): BelongsTo
@@ -24,8 +26,8 @@ class Cart extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function cartItems(): HasMany
+    public function menu(): BelongsTo
     {
-        return $this->hasMany(CartItem::class);
+        return $this->belongsTo(Menu::class);
     }
 }

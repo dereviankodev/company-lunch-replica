@@ -10,6 +10,10 @@ type User {
     email: String!
     created_at: DateTime!
     updated_at: DateTime!
+
+    carts: [Cart!]! @hasMany
+    orderCustomers: [Order!]! @hasMany
+    orderRecipients: [Order!]! @hasMany
 }
 
 type Category {
@@ -28,7 +32,10 @@ type Dish {
     weight: String!
     created_at: DateTime!
     updated_at: DateTime!
+
     category: Category! @belongsTo
+    menus: [Menu!]! @hasMany
+    orderItems: [OrderItem!]! @hasMany
 }
 
 type Menu {
@@ -37,15 +44,30 @@ type Menu {
     actual_at: Date!
     created_at: DateTime!
     updated_at: DateTime!
+
     dish: Dish! @belongsTo
+    cart: Cart! @hasMany
+}
+
+type Cart {
+    id: ID!
+    price: Int!
+    count: Int!
+    created_at: DateTime!
+    updated_at: DateTime!
+
+    user: User! @belongsTo
+    menu: Menu! @belongsTo
 }
 
 type Order {
     id: ID!
     created_at: DateTime!
     updated_at: DateTime!
+
     customer: User! @belongsTo
     recipient: User @belongsTo
+    orderItems: [OrderItem!]! @hasMany
 }
 
 type OrderItem {
@@ -54,27 +76,33 @@ type OrderItem {
     count: Int!
     created_at: DateTime!
     updated_at: DateTime!
+
     order: Order! @belongsTo
     dish: Dish! @belongsTo
 }
 
 type Query {
-    users: [User!]! @all
+    me: User @auth
+
+    users: [User!]! @all @softDeletes
     user(id: ID @eq): User @find
 
-    categories: [Category!]! @all
+    categories: [Category!]! @all @softDeletes
     category(id: ID @eq): Category @find
 
-    dishes: [Dish!]! @all
+    dishes: [Dish!]! @all @softDeletes
     dish(id: ID @eq): Dish @find
 
-    menus: [Menu!]! @all
+    menus: [Menu!]! @all @softDeletes
     menu(id: ID @eq): Menu @find
 
-    orders: [Order!]! @all
+    carts: [Cart!]! @all @softDeletes
+    cart(id: ID @eq): Cart @find
+
+    orders: [Order!]! @all @softDeletes
     order(id: ID @eq): Order @find
 
-    orderItems: [OrderItem!]! @all
+    orderItems: [OrderItem!]! @all @softDeletes
     orderItem(id: ID @eq): OrderItem @find
 }
 
@@ -128,6 +156,21 @@ type Mutation {
         actual_at: Date
     ): Menu @update
     deleteMenu(id: ID!): Menu @delete
+
+    createCart(
+        user_id: ID!
+        menu_id: ID!
+        price: Int!
+        count: Int!
+    ): Cart! @create
+    updateCart(
+        id: ID!
+        user_id: ID
+        menu_id: ID
+        price: Int
+        count: Int
+    ): Cart @update
+    deleteCart(id: ID!): Cart @delete
 
     createOrder(
         customer_id: ID!

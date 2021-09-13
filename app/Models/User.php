@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\{
     Factories\HasFactory,
     Relations\HasMany,
-    Relations\HasOne,
     SoftDeletes
 };
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -34,13 +33,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function cart(): HasOne
+    public function carts(): HasMany
     {
-        return $this->hasOne(Cart::class);
+        return $this->hasMany(Cart::class);
     }
 
-    public function orders(): HasMany
+    public function orderCustomers(): HasMany
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class, 'customer_id');
+    }
+
+    public function orderRecipients(): HasMany
+    {
+        return $this->hasMany(Order::class, 'recipient_id');
     }
 }

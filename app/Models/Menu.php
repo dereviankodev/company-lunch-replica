@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\{
     Factories\HasFactory,
     Model,
     Relations\BelongsTo,
+    Relations\HasMany,
     SoftDeletes
 };
 
@@ -27,5 +28,10 @@ class Menu extends Model
     public function dish(): BelongsTo
     {
         return $this->belongsTo(Dish::class);
+    }
+
+    public function cart(): HasMany
+    {
+        return $this->hasMany(Cart::class);
     }
 }
