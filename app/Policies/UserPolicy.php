@@ -4,41 +4,20 @@ namespace App\Policies;
 
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Facades\Auth;
 
 class UserPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, $injectArgs): bool
+    public function __call(string $name, array $arguments)
     {
-        return $user->isAdmin() || $user->id == $injectArgs['id'];
-    }
+        /** @var User $entity */
+        $entity = $arguments[0];
+        $args = $arguments[1] ?? [];
 
-//    /**
-//     * Determine whether the user can delete the model.
-//     */
-//    public function delete(User $user): bool
-//    {
-//        return $user->isAdmin();
-//    }
-//
-//    /**
-//     * Determine whether the user can restore the model.
-//     */
-//    public function restore(User $user): bool
-//    {
-//        return $user->isAdmin();
-//    }
-//
-//    /**
-//     * Determine whether the user can permanently delete the model.
-//     */
-//    public function forceDelete(User $user): bool
-//    {
-//        return $user->isAdmin();
-//    }
+        return match ($name) {
+            'update', 'upsert' => $entity->isAdmin() || $entity->id == $args['id'],
+            'delete', 'restore', 'forceDelete' => $entity->isAdmin(),
+        };
+    }
 }
