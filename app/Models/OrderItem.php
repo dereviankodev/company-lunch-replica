@@ -4,11 +4,13 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\{
+    Builder,
     Factories\HasFactory,
     Model,
     Relations\BelongsTo,
-    SoftDeletes,
+    SoftDeletes
 };
+use Illuminate\Support\Facades\Auth;
 
 class OrderItem extends Model
 {
@@ -30,5 +32,21 @@ class OrderItem extends Model
     public function dish(): BelongsTo
     {
         return $this->belongsTo(Dish::class);
+    }
+
+    public function scopeAccessUser(Builder $query): Builder
+    {
+        $guard = Auth::guard();
+
+        /** @var User|null $user */
+        $user = $guard->user();
+
+        if ($user->isAdmin()) {
+            return $query;
+        }
+
+        return $query->whereHas('order', function(Builder $query) use ($user) {
+            $query->where('customer_id', $user->id);
+        });
     }
 }

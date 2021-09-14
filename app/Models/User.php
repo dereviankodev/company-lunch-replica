@@ -63,6 +63,7 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         $guard = Auth::guard();
+        /** @var User|null $user */
         $user = $guard->user();
 
         return $user->is_admin === static::ROLE_ADMIN;

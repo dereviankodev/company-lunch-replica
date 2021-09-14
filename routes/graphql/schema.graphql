@@ -7,14 +7,14 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 type User {
     id: ID!
     name: String!
-    email: String!
-    is_admin: Boolean!
-    created_at: DateTime!
-    updated_at: DateTime!
+    email: String! @canAccessUser
+    is_admin: Boolean! @canAccessAdmin
+    created_at: DateTime! @canAccessUser
+    updated_at: DateTime! @canAccessUser
 
-    carts: [Cart!]! @hasMany
-    orderCustomers: [Order!]! @hasMany
-    orderRecipients: [Order!]! @hasMany
+    carts: [Cart!]! @canAccessUser @hasMany
+    orderCustomers: [Order!]! @canAccessUser @hasMany
+    orderRecipients: [Order!]! @canAccessUser @hasMany
 }
 
 type Category {
@@ -89,37 +89,36 @@ type Query {
 extend type Query @guard {
     users: [User!]! @all @softDeletes
     usersPagination: [User!]! @paginate @softDeletes
-    user(id: ID @eq): User @find
+    user(id: ID @eq): User @find @softDeletes
 
     categories: [Category!]! @all @softDeletes
     categoriesPagination: [Category!]! @paginate @softDeletes
-    category(id: ID @eq): Category @find
+    category(id: ID @eq): Category @find @softDeletes
 
     dishes: [Dish!]! @all @softDeletes
     dishesPagination: [Dish!]! @paginate @softDeletes
-    dish(id: ID @eq): Dish @find
+    dish(id: ID @eq): Dish @find @softDeletes
 
-    menus: [Menu!]! @all @softDeletes
-    menusPagination: [Menu!]! @paginate @softDeletes
-    menu(id: ID @eq): Menu @find
+    menus: [Menu!]! @all(scopes: ["actual"]) @softDeletes
+    menusPagination: [Menu!]! @paginate(scopes: ["actual"]) @softDeletes
+    menu(id: ID @eq): Menu @find(scopes: ["actual"]) @softDeletes
 
-    carts: [Cart!]! @all @softDeletes
-    cartsPagination: [Cart!]! @paginate @softDeletes
-    cart(id: ID @eq): Cart @find
+    carts: [Cart!]! @all(scopes: ["accessUser"]) @softDeletes
+    cartsPagination: [Cart!]! @paginate(scopes: ["accessUser"]) @softDeletes
+    cart(id: ID @eq): Cart @can(ability: "view", injectArgs: true) @find @softDeletes
 
-    orders: [Order!]! @all @softDeletes
-    ordersPagination: [Order!]! @paginate @softDeletes
-    order(id: ID @eq): Order @find
+    orders: [Order!]! @all(scopes: ["accessUser"]) @softDeletes
+    ordersPagination: [Order!]! @paginate(scopes: ["accessUser"]) @softDeletes
+    order(id: ID @eq): Order @can(ability: "view", injectArgs: true) @find @softDeletes
 
-    orderItems: [OrderItem!]! @all @softDeletes
-    orderItemsPagination: [OrderItem!]! @paginate @softDeletes
-    orderItem(id: ID @eq): OrderItem @find
+    orderItems: [OrderItem!]! @all(scopes: ["accessUser"]) @softDeletes
+    orderItemsPagination: [OrderItem!]! @paginate(scopes: ["accessUser"]) @softDeletes
+    orderItem(id: ID @eq): OrderItem @can(ability: "view", injectArgs: true) @find @softDeletes
 }
 
 type Mutation {
     "Log in to a new session and get the user."
     login(email: String!, password: String!): User!
-
     "Log out from the current session, showing the user one last time."
     logout: User @guard
 
@@ -128,20 +127,18 @@ type Mutation {
         email: String! @rules(apply: ["email", "unique:users"])
         password: String! @rules(apply: ["min:8"]) @hash
     ): User! @create
-
     updateUser(
         id: ID!
         name: String
         email: String
         password: String @rules(apply: ["min:8"]) @hash
     ): User @can(ability: "update", injectArgs: true) @update
-
     upsertUser(
         id: ID!
         name: String!
         email: String!
         password: String! @rules(apply: ["min:8"]) @hash
-    ): User @upsert
+    ): User @can(ability: "upsert", injectArgs: true) @upsert
     deleteUser(id: ID!): User @can(ability: "delete") @delete
     restoreUser(id: ID!): User @can(ability: "restore") @restore
     forceDeleteUser(id: ID!): User @can(ability: "forceDelete") @forceDelete
@@ -149,127 +146,125 @@ type Mutation {
 
     createCategory(
         name: String! @rules(apply: ["unique:categories"])
-    ): Category! @create
+    ): Category! @can(ability: "create") @create
     updateCategory(
         id: ID!
         name: String @rules(apply: ["unique:categories"])
-    ): Category @update
+    ): Category @can(ability: "update") @update
     upsertCategory(
         id: ID!
         name: String! @rules(apply: ["unique:categories"])
-    ): Category @upsert
-    deleteCategory(id: ID!): Category @delete
-    restoreCategory(id: ID!): Category @restore
-    forceDeleteCategory(id: ID!): Category @forceDelete
+    ): Category @can(ability: "upsert") @upsert
+    deleteCategory(id: ID!): Category @can(ability: "delete") @delete
+    restoreCategory(id: ID!): Category @can(ability: "restore") @restore
+    forceDeleteCategoryCategory(id: ID!): Category @can(ability: "forceDelete") @forceDelete
 
     createDish(
         category_id: ID!
         name: String! @rules(apply: ["unique:dishes"])
         ingredients: String!
         weight: String!
-    ): Dish! @create
+    ): Dish! @can(ability: "create") @create
     updateDish(
         id: ID!
         category_id: ID
         name: String @rules(apply: ["unique:dishes"])
         ingredients: String
         weight: String
-    ): Dish @update
+    ): Dish @can(ability: "update") @update
     upsertDish(
         id: ID!
         category_id: ID!
         name: String! @rules(apply: ["unique:dishes"])
         ingredients: String!
         weight: String!
-    ): Dish @upsert
-    deleteDish(id: ID!): Dish @delete
-    restoreDish(id: ID!): Dish @restore
-    forceDeleteDish(id: ID!): Dish @forceDelete
+    ): Dish @can(ability: "upsert") @upsert
+    deleteDish(id: ID!): Dish @can(ability: "delete") @delete
+    restoreDish(id: ID!): Dish @can(ability: "restore") @restore
+    forceDeleteCategoryDish(id: ID!): Dish @can(ability: "forceDelete") @forceDelete
 
     createMenu(
         dish_id: ID!
         price: Int!
         actual_at: Date!
-    ): Menu! @create
+    ): Menu! @can(ability: "create") @create
     updateMenu(
         id: ID!
         dish_id: ID
         price: Int
         actual_at: Date
-    ): Menu @update
+    ): Menu @can(ability: "update") @update
     upsertMenu(
         id: ID!
         dish_id: ID!
         price: Int!
         actual_at: Date!
-    ): Menu @upsert
-    deleteMenu(id: ID!): Menu @delete
-    restoreMenu(id: ID!): Menu @restore
-    forceDeleteMenu(id: ID!): Menu @forceDelete
+    ): Menu @can(ability: "upsert") @upsert
+    deleteMenu(id: ID!): Menu @can(ability: "delete") @delete
+    restoreMenu(id: ID!): Menu @can(ability: "restore") @restore
+    forceDeleteCategoryMenu(id: ID!): Menu @can(ability: "forceDelete") @forceDelete
 
     createCart(
         user_id: ID!
         menu_id: ID!
         price: Int!
         count: Int!
-    ): Cart! @create
+    ): Cart! @can(ability: "create") @create
     updateCart(
         id: ID!
         user_id: ID
         menu_id: ID
         price: Int
         count: Int
-    ): Cart @update
+    ): Cart @can(ability: "update") @update
     upsertCart(
         id: ID!
         user_id: ID!
         menu_id: ID!
         price: Int!
         count: Int!
-    ): Cart @upsert
-    deleteCart(id: ID!): Cart @delete
-    restoreCart(id: ID!): Cart @restore
-    forceDeleteCart(id: ID!): Cart @forceDelete
+    ): Cart @can(ability: "upsert") @upsert
+    deleteCart(id: ID!): Cart @can(ability: "forceDelete") @forceDelete
 
     createOrder(
         customer_id: ID!
         recipient_id: ID
-    ): Order! @create
+    ): Order! @can(ability: "create") @create
     updateOrder(
         id: ID!
         customer_id: ID
         recipient_id: ID
-    ): Order @update
+    ): Order @can(ability: "update") @update
     upsertOrder(
         id: ID!
         customer_id: ID!
         recipient_id: ID!
-    ): Order @upsert
-    deleteOrder(id: ID!): Order @delete
-    restoreOrder(id: ID!): Order @restore
-    forceDeleteOrder(id: ID!): Order @forceDelete
+    ): Order @can(ability: "upsert") @upsert
+    deleteOrder(id: ID!): Order @can(ability: "delete") @delete
+    restoreOrder(id: ID!): Order @can(ability: "restore") @restore
+    forceDeleteCategoryOrder(id: ID!): Order @can(ability: "forceDelete") @forceDelete
 
     createOrderItem(
         order_id: ID!
         dish_id: ID!
         price: Int!
         count: Int!
-    ): OrderItem! @create
+    ): OrderItem! @can(ability: "create") @create
     updateOrderItem(
         id: ID!
         order_id: ID
         dish_id: ID
         price: Int
         count: Int
-    ): OrderItem @update
+    ): OrderItem @can(ability: "update") @update
     upsertOrderItem(
         id: ID!
         order_id: ID
         dish_id: ID
         price: Int
         count: Int
-    ): OrderItem @upsert
-    deleteOrderItem(id: ID!): OrderItem @delete
-    restoreOrderItem(id: ID!): OrderItem @restore
-    forceDeleteOrderItem(id: ID!): OrderItem @forceDelete
+    ): OrderItem @can(ability: "upsert") @upsert
+    deleteOrderItem(id: ID!): OrderItem @can(ability: "delete") @delete
+    restoreOrderItem(id: ID!): OrderItem @can(ability: "restore") @restore
+    forceDeleteCategoryOrderItem(id: ID!): OrderItem @can(ability: "forceDelete") @forceDelete
 }
