@@ -1,0 +1,28 @@
+# query {
+#   me {
+#     id
+#     name
+#     email
+#     created_at
+#     updated_at
+#   }
+# }
+
+# mutation {
+#   login(
+#     email: "derevianko@quartsoft.com"
+#     password: "2D56i5bNwqiJjtd"
+#   ) {
+#     id
+#     name
+#     # email
+#     # created_at
+#     # updated_at
+#   }
+# }
+
+# mutation {
+#   logout {
+#     id
+#   }
+# }

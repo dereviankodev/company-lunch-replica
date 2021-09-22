@@ -1,22 +1,22 @@
-#query {
-#    menus {
-#        id
-#        price
-#        actual_at
-#        created_at
-#        updated_at
-#        dish {
-#            id
-#            name
-#            ingredients
-#            weight
-#            category {
-#                id
-#                name
-#            }
-#        }
-#    }
-#}
+# query {
+#   menus {
+#     id
+#     price
+#     actual_at
+#     created_at
+#     updated_at
+#     dish {
+#       id
+#       name
+#       ingredients
+#       weight
+#       category {
+#         id
+#         name
+#       }
+#     }
+#   }
+# }
 
 # query {
 #   menu(id: 1) {

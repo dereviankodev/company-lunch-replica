@@ -1,11 +1,11 @@
-#query {
-#    categories {
-#        id
-#        name
-#        created_at
-#        updated_at
-#    }
-#}
+# query {
+#   categories {
+#     id
+#     name
+#     created_at
+#     updated_at
+#   }
+# }
 
 # query {
 #   category(id: 11) {
