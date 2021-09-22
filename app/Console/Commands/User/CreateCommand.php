@@ -3,9 +3,10 @@
 namespace App\Console\Commands\User;
 
 use App\Models\User;
-use DomainException;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class CreateCommand extends Command
@@ -21,22 +22,37 @@ class CreateCommand extends Command
 
     public function handle(): int
     {
-        $input['name'] = $this->ask('Set name', 'Name-'.now()->timestamp);
+        $input['name'] = $this->ask('Set full name', 'Name-'.now()->timestamp);
         $input['email'] = $this->askEmail();
         $input['password'] = $this->askPassword();
         $input['is_admin'] = $this->askIsAdmin();
 
+        $validate = Validator::make($input, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:users|max:255',
+            'password' => 'required|min:8|max:255',
+            'is_admin' => 'required|boolean'
+        ]);
+
+        if (!$validate->passes()) {
+            foreach ($validate->messages()->all() as $message) {
+                $this->error($message);
+            }
+
+            return 1;
+        }
+
         try {
-            $user = User::create($input);
-        } catch (DomainException $e) {
+            $user = User::create($validate->validate());
+        } catch (Exception $e) {
             $this->error($e->getMessage());
             return 1;
         }
 
         $role = $user->is_admin ? 'administrator' : 'user';
 
-        $this->info('The user was successfully created with the following credentials:');
-        $this->info("Name: $user->name");
+        $this->warn('The user was successfully created with the following credentials:');
+        $this->info("Full name: $user->name");
         $this->info("Email: $user->email");
         $this->info("As: $role");
 
@@ -48,13 +64,13 @@ class CreateCommand extends Command
         $email = $this->ask('Set email');
 
         if (User::where('email', $email)->first()) {
-            $this->error("The email $email in the system is already taken");
-            $this->askEmail();
+            $this->warn("The email $email in the system is already taken");
+            return $this->askEmail();
         }
 
         if (empty($email)) {
-            $this->error("Email cannot be empty!");
-            $this->askEmail();
+            $this->warn("Email cannot be empty!");
+            return $this->askEmail();
         }
 
         return $email;
@@ -66,8 +82,8 @@ class CreateCommand extends Command
         $length = Str::length($password);
 
         if ($length < 8) {
-            $this->error('Password must not be less than 8 characters');
-            $this->askPassword();
+            $this->warn('Password must not be less than 8 characters');
+            return $this->askPassword();
         }
 
         return Hash::make($password);
@@ -75,19 +91,16 @@ class CreateCommand extends Command
 
     private function askIsAdmin(): bool
     {
-        $is_admin = $this->ask('Administrator user?\n[Yes/no]', false);
+        $is_admin = $this->ask('Administrator user? [Yes/no]', 'no');
 
-        if ($is_admin === false) {
-            return false;
+        if ($is_admin === 'Yes') {
+            return true;
         } elseif ($is_admin === 'no') {
             return false;
-        } elseif ($is_admin === 'Yes') {
-            return true;
-        } else {
-            $this->warn('The answer should only be `Yes` or `no`');
-            $this->askIsAdmin();
         }
 
-        return false;
+        $this->warn('The answer should only be `Yes` or `no`');
+
+        return $this->askIsAdmin();
     }
 }
