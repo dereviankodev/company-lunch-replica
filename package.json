@@ -1,11 +1,13 @@
 {
     "private": true,
     "scripts": {
+        "dev-all": "concurrently \"npm --section=base run dev\" \"npm --section=main run dev\"  --kill-others-on-fail",
         "dev": "npm run development",
         "development": "mix",
         "watch": "mix watch",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
+        "prod-all": "concurrently \"npm --section=base run prod\" \"npm --section=main run prod\"  --kill-others-on-fail",
         "prod": "npm run production",
         "production": "mix --production"
     },
@@ -19,5 +21,8 @@
         "postcss": "^8.2.1",
         "postcss-import": "^12.0.1",
         "tailwindcss": "^2.0.2"
+    },
+    "dependencies": {
+        "concurrently": "^6.2.1"
     }
 }
