@@ -1,18 +1,50 @@
-#query {
-#    users {
-#        id
-#        name
-#        email
-#        created_at
-#        updated_at
-#    }
-#}
+# query {
+#   users {
+#     id
+#     name
+#     # email
+#     # created_at
+#     # updated_at
+#     # carts {
+#     #   id
+#     # }
+#     # orderCustomers {
+#     #   id
+#     # }
+#     # orderRecipients {
+#     #   id
+#     # }
+#   }
+# }
 
 # query {
-#   user(id: 1) {
+#   usersPagination(first: 10, page: 1) {
+#     data {
+#       id
+#       name
+#       # email
+#       # created_at
+#       # updated_at
+#     }
+#     paginatorInfo {
+#       count
+#       currentPage
+#       firstItem
+#       hasMorePages
+#       lastItem
+#       lastPage
+#       perPage
+#       total
+#     }
+#   }
+# }
+
+# query {
+#   user(id: 131) {
 #     id
 #     name
 #     email
+#     # is_admin
 #     created_at
 #     updated_at
 #   }
@@ -22,27 +54,39 @@
 #   createUser(
 #     name: "Anton Derevianko"
 #     email: "derevianko@quartsoft.com"
-#     password: "2D56i5bNwqiJjtd" # Only dev on local server
+#     password: "2D56i5bNwqiJjtd"
 #   ) {
 #     id
 #     name
+#   }
+# }
+
+# mutation {
+#   updateUser(id: 130, name: "Anton Derevianko") {
+#     id
+#     name
 #     email
+#     is_admin
 #     created_at
 #     updated_at
 #   }
 # }
 
 # mutation {
-#   updateUser(id: 1, name: "Update User", password: "password") {
+#   upsertUser(id: 131, name: "Anton Derevianko", email: "derevianko@quartsoft.com", password: "2D56i5bNwqiJjtd") {
 #     id
 #     name
 #     email
+#     is_admin
+#     created_at
+#     updated_at
 #   }
 # }
 
 # mutation {
-#   deleteUser(id: 1) {
+#   deleteUser(id: 131) {
 #     name
 #     email
+#     is_admin
 #   }
 # }

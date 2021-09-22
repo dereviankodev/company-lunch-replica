@@ -1,17 +1,17 @@
-#query {
-#    dishes {
-#        id
-#        name
-#        ingredients
-#        weight
-#        created_at
-#        updated_at
-#        category {
-#            id
-#            name
-#        }
-#    }
-#}
+# query {
+#   dishes {
+#     id
+#     name
+#     ingredients
+#     weight
+#     created_at
+#     updated_at
+#     category {
+#       id
+#       name
+#     }
+#   }
+# }
 
 # query {
 #   dish(id: 1) {

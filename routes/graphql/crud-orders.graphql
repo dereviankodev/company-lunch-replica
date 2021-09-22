@@ -1,20 +1,20 @@
-#query {
-#    orders {
-#        id
-#        created_at
-#        updated_at
-#        customer {
-#            id
-#            name
-#            email
-#        }
-#        recipient {
-#            id
-#            name
-#            email
-#        }
-#    }
-#}
+# query {
+#   orders {
+#     id
+#     created_at
+#     updated_at
+#     customer {
+#       id
+#       name
+#       email
+#     }
+#     recipient {
+#       id
+#       name
+#       email
+#     }
+#   }
+# }
 
 # query {
 #   order(id: 1) {
@@ -36,7 +36,7 @@
 
 # mutation {
 #   createOrder(
-#     customer_id: 2
+#     customer_id: 130
 #     # recipient_id: 45
 #   ) {
 #     created_at
