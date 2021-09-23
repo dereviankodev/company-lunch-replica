@@ -34,6 +34,14 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        @can('admin')
+                            <x-dropdown-link :href="route('admin.home')">
+                                {{ __('Admin') }}
+                            </x-dropdown-link>
+                        @endcan
+                        <x-dropdown-link :href="route('dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -76,6 +84,14 @@
             </div>
 
             <div class="mt-3 space-y-1">
+                @can('admin')
+                    <x-responsive-nav-link :href="route('admin.home')">
+                        {{ __('Admin') }}
+                    </x-responsive-nav-link>
+                @endcan
+                <x-responsive-nav-link :href="route('dashboard')">
+                    {{ __('Dashboard') }}
+                </x-responsive-nav-link>
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

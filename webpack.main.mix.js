@@ -4,5 +4,5 @@ mix
     .setPublicPath('public/build/main')
     .setResourceRoot('/build/main')
     .js('resources/js/main/app.js', '/main/js')
-    .css('resources/css/main/app.css', '/main/css')
+    .sass('resources/sass/main/app.scss', '/main/css')
     .version();
