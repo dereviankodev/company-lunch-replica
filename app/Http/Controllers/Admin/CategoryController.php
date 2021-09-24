@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\Categories\UpdateRequest;
 use App\Models\Category;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 use Throwable;
 
 class CategoryController extends Controller
@@ -26,7 +27,13 @@ class CategoryController extends Controller
 
     public function store(StoreRequest $request): RedirectResponse
     {
-        $category = Category::create($request->only(['name']));
+        $fileName = $request->file('image')->store('images/category');
+        $category = Category::create(
+            array_merge(
+                $request->only(['name']),
+                ['img_path' => $fileName]
+            )
+        );
 
         return redirect()->route('admin.categories.show', $category);
     }
