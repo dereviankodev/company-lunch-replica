@@ -23,16 +23,41 @@
             <td>{{ $category->name }}</td>
         </tr>
         <tr>
-        <tr>
             <th>Created at</th>
             <td>{{ $category->created_at->format('Y-m-d H:i:s') }}</td>
         </tr>
         <tr>
-        <tr>
             <th>Updated at</th>
             <td>{{ $category->updated_at->format('Y-m-d H:i:s') }}</td>
         </tr>
+        </tbody>
+    </table>
+
+    <p><a href="{{ route('admin.dishes.create') }}" class="btn btn-success">Add Dish</a></p>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr><th colspan="4">Dishes</th></tr>
         <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Ingredients</th>
+            <th>Weight (g)</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        @forelse($category->dishes as $dish)
+            <tr>
+                <td>{{ $dish->id }}</td>
+                <td><a href="{{ route('admin.dishes.show', $dish) }}">{{ $dish->name }}</a></td>
+                <td>{{ $dish->ingredients }}</td>
+                <td>{{ $dish->weight }}</td>
+            </tr>
+        @empty
+            <tr><td colspan="4">None</td></tr>
+        @endforelse
+
         </tbody>
     </table>
 @endsection
