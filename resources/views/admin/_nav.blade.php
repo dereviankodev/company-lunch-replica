@@ -17,4 +17,10 @@
             {{ __('Categories') }}
         </a>
     </li>
+    <li class="nav-item">
+        <a href="{{ route('admin.dishes.index') }}"
+           class="nav-link{{ request()->routeIs('admin.dishes.*') ? ' active' : '' }}">
+            {{ __('Dishes') }}
+        </a>
+    </li>
 </ul>

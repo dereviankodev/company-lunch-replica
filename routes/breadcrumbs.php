@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Category;
+use App\Models\Dish;
 use App\Models\User;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as Crumbs;
@@ -45,12 +46,34 @@ Breadcrumbs::for('admin.categories.create', function (Crumbs $crumbs) {
     $crumbs->push('Create', route('admin.categories.create'));
 });
 
-Breadcrumbs::for('admin.categories.show', function (Crumbs $crumbs, Category $categories) {
+Breadcrumbs::for('admin.categories.show', function (Crumbs $crumbs, Category $category) {
     $crumbs->parent('admin.categories.index');
-    $crumbs->push($categories->name, route('admin.categories.index', $categories));
+    $crumbs->push($category->name, route('admin.categories.index', $category));
 });
 
-Breadcrumbs::for('admin.categories.edit', function (Crumbs $crumbs, Category $categories) {
-    $crumbs->parent('admin.categories.show', $categories);
-    $crumbs->push('Edit', route('admin.categories.edit', $categories));
+Breadcrumbs::for('admin.categories.edit', function (Crumbs $crumbs, Category $category) {
+    $crumbs->parent('admin.categories.show', $category);
+    $crumbs->push('Edit', route('admin.categories.edit', $category));
+});
+
+// Dishes
+
+Breadcrumbs::for('admin.dishes.index', function (Crumbs $crumbs) {
+    $crumbs->parent('admin.home');
+    $crumbs->push('Dishes', route('admin.dishes.index'));
+});
+
+Breadcrumbs::for('admin.dishes.create', function (Crumbs $crumbs) {
+    $crumbs->parent('admin.dishes.index');
+    $crumbs->push('Create', route('admin.dishes.create'));
+});
+
+Breadcrumbs::for('admin.dishes.show', function (Crumbs $crumbs, Dish $dish) {
+    $crumbs->parent('admin.dishes.index');
+    $crumbs->push($dish->name, route('admin.dishes.index', $dish));
+});
+
+Breadcrumbs::for('admin.dishes.edit', function (Crumbs $crumbs, Dish $dish) {
+    $crumbs->parent('admin.dishes.show', $dish);
+    $crumbs->push('Edit', route('admin.dishes.edit', $dish));
 });
