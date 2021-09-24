@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9441bd76012cf84b5ae9fa58f9e1c1d2",
+    "content-hash": "a37df6715623085e703c4f887a717eec",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -199,16 +199,16 @@
         },
         {
             "name": "diglactic/laravel-breadcrumbs",
-            "version": "v7.0.0",
+            "version": "v7.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/diglactic/laravel-breadcrumbs.git",
-                "reference": "994808137d69672473f7f4df9b96d731c7e2ed74"
+                "reference": "0a14e8785fa9423c878edd3975af2a92dfcdaf42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/diglactic/laravel-breadcrumbs/zipball/994808137d69672473f7f4df9b96d731c7e2ed74",
-                "reference": "994808137d69672473f7f4df9b96d731c7e2ed74",
+                "url": "https://api.github.com/repos/diglactic/laravel-breadcrumbs/zipball/0a14e8785fa9423c878edd3975af2a92dfcdaf42",
+                "reference": "0a14e8785fa9423c878edd3975af2a92dfcdaf42",
                 "shasum": ""
             },
             "require": {
@@ -264,9 +264,9 @@
             ],
             "support": {
                 "issues": "https://github.com/diglactic/laravel-breadcrumbs/issues",
-                "source": "https://github.com/diglactic/laravel-breadcrumbs/tree/v7.0.0"
+                "source": "https://github.com/diglactic/laravel-breadcrumbs/tree/v7.0.1"
             },
-            "time": "2021-05-23T16:43:52+00:00"
+            "time": "2021-09-23T20:31:25+00:00"
         },
         {
             "name": "doctrine/inflector",
