@@ -23,6 +23,17 @@
             <td>{{ $category->name }}</td>
         </tr>
         <tr>
+            <th>Image</th>
+            <td>
+                @if(!is_null($category->img_path))
+                    <img src="{{ asset($category->img_path) }}" alt="{{ $category->name }}"
+                         width="765" height="70" class="img-fluid">
+                @else
+                    {{ __('No image') }}
+                @endif
+            </td>
+        </tr>
+        <tr>
             <th>Created at</th>
             <td>{{ $category->created_at->format('Y-m-d H:i:s') }}</td>
         </tr>

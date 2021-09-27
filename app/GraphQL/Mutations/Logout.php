@@ -2,19 +2,51 @@
 
 namespace App\GraphQL\Mutations;
 
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use Exception;
+use Illuminate\Contracts\Auth\Factory as AuthFactory;
+use Illuminate\Contracts\Translation\Translator;
+use Laravel\Sanctum\Contracts\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class Logout
 {
-    public function __invoke($_, array $args): ?User
+    use HasAuthenticatedUser;
+
+    protected AuthFactory $authFactory;
+    protected Translator $translator;
+
+    public function __construct(AuthFactory $authFactory, Translator $translator)
     {
-        $guard = Auth::guard();
+        $this->authFactory = $authFactory;
+        $this->translator  = $translator;
+    }
 
-        /** @var User|null $user */
-        $user = $guard->user();
-        $guard->logout();
+    /**
+     * @param mixed $_
+     * @param array<string, mixed> $args
+     * @return array<string, string|array>
+     * @throws Exception
+     */
+    public function __invoke($_, array $args): array
+    {
+        $user = $this->getAuthenticatedUser();
 
-        return $user;
+        if (! $user instanceof HasApiTokens) {
+            throw new HasApiTokensException($user);
+        }
+
+        /** @var PersonalAccessToken $personalAccessToken */
+        $personalAccessToken = $user->currentAccessToken();
+        $personalAccessToken->delete();
+
+        return [
+            'status'  => 'TOKEN_REVOKED',
+            'message' => $this->translator->get('Your session has been terminated'),
+        ];
+    }
+
+    protected function getAuthFactory(): AuthFactory
+    {
+        return $this->authFactory;
     }
 }
