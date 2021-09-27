@@ -1,0 +1,40 @@
+type Cart {
+    id: ID!
+    price: Int!
+    count: Int!
+    created_at: DateTime!
+    updated_at: DateTime!
+
+    user: User! @belongsTo
+    menu: Menu! @belongsTo
+}
+
+extend type Query @guard {
+    carts: [Cart!]! @all(scopes: ["accessUser"]) @softDeletes
+    cartsPagination: [Cart!]! @paginate(scopes: ["accessUser"]) @softDeletes
+    cart(id: ID @eq): Cart @can(ability: "view", injectArgs: true) @find @softDeletes
+}
+
+extend type Mutation {
+    createCart(
+        user_id: ID!
+        menu_id: ID!
+        price: Int!
+        count: Int!
+    ): Cart! @can(ability: "create") @create
+    updateCart(
+        id: ID!
+        user_id: ID
+        menu_id: ID
+        price: Int
+        count: Int
+    ): Cart @can(ability: "update") @update
+    upsertCart(
+        id: ID!
+        user_id: ID!
+        menu_id: ID!
+        price: Int!
+        count: Int!
+    ): Cart @can(ability: "upsert") @upsert
+    deleteCart(id: ID!): Cart @can(ability: "forceDelete") @forceDelete
+}

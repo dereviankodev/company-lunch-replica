@@ -1,0 +1,42 @@
+type OrderItem {
+    id: ID!
+    price: Int!
+    count: Int!
+    created_at: DateTime!
+    updated_at: DateTime!
+
+    order: Order! @belongsTo
+    dish: Dish! @belongsTo
+}
+
+extend type Query @guard {
+    orderItems: [OrderItem!]! @all(scopes: ["accessUser"]) @softDeletes
+    orderItemsPagination: [OrderItem!]! @paginate(scopes: ["accessUser"]) @softDeletes
+    orderItem(id: ID @eq): OrderItem @can(ability: "view", injectArgs: true) @find @softDeletes
+}
+
+extend type Mutation {
+    createOrderItem(
+        order_id: ID!
+        dish_id: ID!
+        price: Int!
+        count: Int!
+    ): OrderItem! @can(ability: "create") @create
+    updateOrderItem(
+        id: ID!
+        order_id: ID
+        dish_id: ID
+        price: Int
+        count: Int
+    ): OrderItem @can(ability: "update") @update
+    upsertOrderItem(
+        id: ID!
+        order_id: ID
+        dish_id: ID
+        price: Int
+        count: Int
+    ): OrderItem @can(ability: "upsert") @upsert
+    deleteOrderItem(id: ID!): OrderItem @can(ability: "delete") @delete
+    restoreOrderItem(id: ID!): OrderItem @can(ability: "restore") @restore
+    forceDeleteCategoryOrderItem(id: ID!): OrderItem @can(ability: "forceDelete") @forceDelete
+}

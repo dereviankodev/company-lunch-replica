@@ -1,0 +1,39 @@
+type Menu {
+    id: ID!
+    price: Int!
+    actual_at: Date!
+    created_at: DateTime!
+    updated_at: DateTime!
+
+    dish: Dish! @belongsTo
+    cart: Cart! @hasMany
+}
+
+extend type Query @guard {
+    menus: [Menu!]! @all(scopes: ["actual"]) @softDeletes
+    menusPagination: [Menu!]! @paginate(scopes: ["actual"]) @softDeletes
+    menu(id: ID @eq): Menu @find(scopes: ["actual"]) @softDeletes
+}
+
+extend type Mutation {
+    createMenu(
+        dish_id: ID!
+        price: Int!
+        actual_at: Date!
+    ): Menu! @can(ability: "create") @create
+    updateMenu(
+        id: ID!
+        dish_id: ID
+        price: Int
+        actual_at: Date
+    ): Menu @can(ability: "update") @update
+    upsertMenu(
+        id: ID!
+        dish_id: ID!
+        price: Int!
+        actual_at: Date!
+    ): Menu @can(ability: "upsert") @upsert
+    deleteMenu(id: ID!): Menu @can(ability: "delete") @delete
+    restoreMenu(id: ID!): Menu @can(ability: "restore") @restore
+    forceDeleteCategoryMenu(id: ID!): Menu @can(ability: "forceDelete") @forceDelete
+}

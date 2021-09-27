@@ -1,0 +1,45 @@
+type User {
+    id: ID!
+    name: String!
+    email: String! @canAccessUser
+    is_admin: Boolean! @canAccessAdmin
+    created_at: DateTime! @canAccessUser
+    updated_at: DateTime! @canAccessUser
+
+    carts: [Cart!]! @canAccessUser @hasMany
+    orderCustomers: [Order!]! @canAccessUser @hasMany
+    orderRecipients: [Order!]! @canAccessUser @hasMany
+}
+
+type Query {
+    me: User @auth
+}
+
+extend type Query @guard {
+    users: [User!]! @all @softDeletes
+    usersPagination: [User!]! @paginate @softDeletes
+    user(id: ID @eq): User @find @softDeletes
+}
+
+type Mutation {
+    createUser(
+        name: String!
+        email: String! @rules(apply: ["email", "unique:users"])
+        password: String! @rules(apply: ["min:8"]) @hash
+    ): User! @create
+    updateUser(
+        id: ID!
+        name: String
+        email: String
+        password: String @rules(apply: ["min:8"]) @hash
+    ): User @can(ability: "update", injectArgs: true) @update
+    upsertUser(
+        id: ID!
+        name: String!
+        email: String!
+        password: String! @rules(apply: ["min:8"]) @hash
+    ): User @can(ability: "upsert", injectArgs: true) @upsert
+    deleteUser(id: ID!): User @can(ability: "delete") @delete
+    restoreUser(id: ID!): User @can(ability: "restore") @restore
+    forceDeleteUser(id: ID!): User @can(ability: "forceDelete") @forceDelete
+}
