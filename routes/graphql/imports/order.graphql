@@ -1,0 +1,35 @@
+type Order {
+    id: ID!
+    created_at: DateTime!
+    updated_at: DateTime!
+
+    customer: User! @belongsTo
+    recipient: User @belongsTo
+    orderItems: [OrderItem!]! @hasMany
+}
+
+extend type Query @guard {
+    orders: [Order!]! @all(scopes: ["accessUser"]) @softDeletes
+    ordersPagination: [Order!]! @paginate(scopes: ["accessUser"]) @softDeletes
+    order(id: ID @eq): Order @can(ability: "view", injectArgs: true) @find @softDeletes
+}
+
+extend type Mutation {
+    createOrder(
+        customer_id: ID!
+        recipient_id: ID
+    ): Order! @can(ability: "create") @create
+    updateOrder(
+        id: ID!
+        customer_id: ID
+        recipient_id: ID
+    ): Order @can(ability: "update") @update
+    upsertOrder(
+        id: ID!
+        customer_id: ID!
+        recipient_id: ID!
+    ): Order @can(ability: "upsert") @upsert
+    deleteOrder(id: ID!): Order @can(ability: "delete") @delete
+    restoreOrder(id: ID!): Order @can(ability: "restore") @restore
+    forceDeleteCategoryOrder(id: ID!): Order @can(ability: "forceDelete") @forceDelete
+}
