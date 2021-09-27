@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\{
 };
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -19,7 +19,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $password
  * @property bool $is_admin
  */
-class User extends Authenticatable
+class User extends Authenticatable implements HasApiTokensContract
 {
     use HasApiTokens;
     use HasFactory;
