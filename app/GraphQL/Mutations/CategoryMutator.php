@@ -5,7 +5,6 @@ namespace App\GraphQL\Mutations;
 use App\Models\Category;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryMutator
