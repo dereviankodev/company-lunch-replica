@@ -16,17 +16,20 @@ extend type Query @guard {
 
 extend type Mutation {
     createCategory(
-        name: String! @rules(apply: ["unique:categories"])
-    ): Category! @can(ability: "create") @create
+        name: String! @rules(apply: ["max:255", "unique:categories"])
+        image: Upload! @rules(apply: ["image", "mimes:jpeg,jpg,png,webp", "max:256", "dimensions:width=765,height=70"])
+    ): Category! @can(ability: "create") @field(resolver: "CategoryMutator@create")
     updateCategory(
         id: ID!
-        name: String @rules(apply: ["unique:categories"])
-    ): Category @can(ability: "update") @update
+        name: String @rules(apply: ["max:255", "unique:categories"])
+        image: Upload @rules(apply: ["image", "mimes:jpeg,jpg,png,webp", "max:256", "dimensions:width=765,height=70"])
+    ): Category @can(ability: "update") @field(resolver: "CategoryMutator@update")
     upsertCategory(
         id: ID!
-        name: String! @rules(apply: ["unique:categories"])
-    ): Category @can(ability: "upsert") @upsert
+        name: String! @rules(apply: ["max:255", "unique:categories"])
+        image: Upload! @rules(apply: ["image", "mimes:jpeg,jpg,png,webp", "max:256", "dimensions:width=765,height=70"])
+    ): Category @can(ability: "upsert") @field(resolver: "CategoryMutator@upsert")
     deleteCategory(id: ID!): Category @can(ability: "delete") @delete
     restoreCategory(id: ID!): Category @can(ability: "restore") @restore
-    forceDeleteCategoryCategory(id: ID!): Category @can(ability: "forceDelete") @forceDelete
+    forceDeleteCategory(id: ID!): Category @can(ability: "forceDelete") @field(resolver: "CategoryMutator@forceDelete")
 }

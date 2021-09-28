@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\{
     SoftDeletes
 };
 
+/**
+ * @property string $name
+ * @property string $img_path
+ */
 class Category extends Model
 {
     use HasFactory;
