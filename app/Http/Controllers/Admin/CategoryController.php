@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\Categories\UpdateRequest;
 use App\Models\Category;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
 
@@ -43,6 +44,9 @@ class CategoryController extends Controller
         return view('admin.categories.show', compact('category'));
     }
 
+    /**
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
     public function edit(Category $category): View
     {
         return view('admin.categories.edit', compact('category'));
@@ -50,8 +54,16 @@ class CategoryController extends Controller
 
     public function update(UpdateRequest $request, Category $category): RedirectResponse
     {
+        $fileName = $category->img_path;
+
+        if (isset($request['image']) && $category->isDifferentFiles($request['image'])) {
+            Storage::delete($fileName);
+            $fileName = $request->file('image')->store('images/category');
+        }
+
         $category->update([
-            'name' => $request['name']
+            'name' => $request['name'],
+            'img_path' => $fileName,
         ]);
 
         return redirect()->route('admin.categories.show', $category);

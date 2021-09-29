@@ -19,7 +19,7 @@ class StoreRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255', 'unique:categories'],
             'image' => [
-                'file', 'image', 'mimes:jpeg,jpg,png,webp', 'max:256', 'dimensions:width=765,height=70',
+                'required', 'file', 'image', 'mimes:jpeg,jpg,png,webp', 'max:256', 'dimensions:width=765,height=70',
                 'nullable'
             ]
         ];

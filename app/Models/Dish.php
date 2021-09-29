@@ -10,6 +10,12 @@ use Illuminate\Database\Eloquent\{
     SoftDeletes
 };
 
+/**
+ * @property integer $category_id
+ * @property string $name
+ * @property ?string $ingredients
+ * @property integer $weight
+ */
 class Dish extends Model
 {
     use HasFactory;

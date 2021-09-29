@@ -21,8 +21,10 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
+        $filePath = storage_path('app/public/images/category');
         return [
             'name' => ucfirst($this->faker->unique()->words(2, true)),
+            'img_path' => 'images/category/'.$this->faker->image($filePath, 765, 70, 'menu', false)
         ];
     }
 }

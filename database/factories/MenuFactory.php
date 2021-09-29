@@ -29,7 +29,7 @@ class MenuFactory extends Factory
         return [
             'dish_id' => $this->faker->randomElement($dishesIdArray),
             'price' => random_int(7, 245),
-            'actual_at' => $this->faker->dateTimeBetween('-1 day', '+1 day'),
+            'actual_at' => $this->faker->dateTimeBetween('-1 day', '+25 day'),
         ];
     }
 }
