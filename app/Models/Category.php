@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\{
     Relations\HasMany,
     SoftDeletes
 };
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @property string $name
@@ -26,5 +27,17 @@ class Category extends Model
     public function dishes(): HasMany
     {
         return $this->hasMany(Dish::class);
+    }
+
+    public function isDifferentFiles($image): bool
+    {
+        if (
+            Storage::size($this->img_path) === $image->getSize()
+            && Storage::mimeType($this->img_path) === $image->getMimeType()
+        ) {
+            return false;
+        }
+
+        return true;
     }
 }

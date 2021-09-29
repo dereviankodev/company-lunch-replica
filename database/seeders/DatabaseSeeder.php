@@ -21,10 +21,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(130)->create();
+        User::factory(30)->create();
         Category::factory(10)
             ->has(Dish::factory()->count(random_int(6, 27)))
             ->create();
-        Menu::factory(random_int(90, 270))->create();
+        Menu::factory(random_int(250, 500))->create();
     }
 }
