@@ -6,6 +6,7 @@ type Category {
     updated_at: DateTime!
 
     dishes: [Dish!]! @hasMany
+    actualMenu: [Menu!]! @hasMany(scopes: ["actual"])
 }
 
 extend type Query @guard {
