@@ -2,6 +2,7 @@
 
 use App\Models\Category;
 use App\Models\Dish;
+use App\Models\Menu;
 use App\Models\User;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as Crumbs;
@@ -76,4 +77,26 @@ Breadcrumbs::for('admin.dishes.show', function (Crumbs $crumbs, Dish $dish) {
 Breadcrumbs::for('admin.dishes.edit', function (Crumbs $crumbs, Dish $dish) {
     $crumbs->parent('admin.dishes.show', $dish);
     $crumbs->push('Edit', route('admin.dishes.edit', $dish));
+});
+
+// Menus
+
+Breadcrumbs::for('admin.menus.index', function (Crumbs $crumbs) {
+    $crumbs->parent('admin.home');
+    $crumbs->push('Menus', route('admin.menus.index'));
+});
+
+Breadcrumbs::for('admin.menus.create', function (Crumbs $crumbs) {
+    $crumbs->parent('admin.menus.index');
+    $crumbs->push('Create', route('admin.menus.create'));
+});
+
+Breadcrumbs::for('admin.menus.show', function (Crumbs $crumbs, Menu $menu) {
+    $crumbs->parent('admin.menus.index');
+    $crumbs->push($menu->dish->name, route('admin.menus.index', $menu));
+});
+
+Breadcrumbs::for('admin.menus.edit', function (Crumbs $crumbs, Menu $menu) {
+    $crumbs->parent('admin.menus.show', $menu);
+    $crumbs->push('Edit', route('admin.menus.edit', $menu));
 });
