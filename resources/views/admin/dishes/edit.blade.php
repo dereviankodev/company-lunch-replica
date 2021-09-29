@@ -19,7 +19,7 @@
         <div class="form-group">
             <label for="ingredients" class="col-form-label">{{ __('Ingredients') }}</label>
             <input type="text" name="ingredients" id="ingredients" class="form-control{{ $errors->has('ingredients') ? ' is-invalid' : '' }}"
-                   value="{{ old('ingredients', $dish->ingredients) }}" required>
+                   value="{{ old('ingredients', $dish->ingredients) }}">
             @if($errors->has('ingredients'))
                 <span class="invalid-feedback"><strong>{{ $errors->first('ingredients') }}</strong></span>
             @endif

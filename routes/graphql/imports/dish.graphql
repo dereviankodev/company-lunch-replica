@@ -1,7 +1,7 @@
 type Dish {
     id: ID!
     name: String!
-    ingredients: String!
+    ingredients: String
     weight: String!
     created_at: DateTime!
     updated_at: DateTime!
@@ -21,7 +21,7 @@ extend type Mutation {
     createDish(
         category_id: ID!
         name: String! @rules(apply: ["unique:dishes"])
-        ingredients: String!
+        ingredients: String
         weight: String!
     ): Dish! @can(ability: "create") @create
     updateDish(
@@ -35,7 +35,7 @@ extend type Mutation {
         id: ID!
         category_id: ID!
         name: String! @rules(apply: ["unique:dishes"])
-        ingredients: String!
+        ingredients: String
         weight: String!
     ): Dish @can(ability: "upsert") @upsert
     deleteDish(id: ID!): Dish @can(ability: "delete") @delete
