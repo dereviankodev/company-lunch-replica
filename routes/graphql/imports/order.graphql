@@ -18,7 +18,7 @@ extend type Mutation {
     createOrder(
         customer_id: ID!
         recipient_id: ID
-    ): Order! @can(ability: "create") @create
+    ): Order! @can(ability: "create", injectArgs: true) @create
     updateOrder(
         id: ID!
         customer_id: ID

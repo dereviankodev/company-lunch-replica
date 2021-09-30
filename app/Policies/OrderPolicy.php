@@ -18,7 +18,7 @@ class OrderPolicy
         switch ($name) {
             case 'view':
             case 'create':
-                $bool = $entity->isAdmin() || $entity->id == $args['id'];
+                $bool = $entity->isAdmin() || $entity->id == $args['customer_id'];
                 break;
             case 'update':
             case 'upsert':
