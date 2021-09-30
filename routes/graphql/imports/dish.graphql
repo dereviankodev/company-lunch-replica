@@ -40,5 +40,5 @@ extend type Mutation {
     ): Dish @can(ability: "upsert") @upsert
     deleteDish(id: ID!): Dish @can(ability: "delete") @delete
     restoreDish(id: ID!): Dish @can(ability: "restore") @restore
-    forceDeleteCategoryDish(id: ID!): Dish @can(ability: "forceDelete") @forceDelete
+    forceDeleteDish(id: ID!): Dish @can(ability: "forceDelete") @forceDelete
 }
