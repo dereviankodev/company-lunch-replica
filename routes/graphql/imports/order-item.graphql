@@ -38,5 +38,5 @@ extend type Mutation {
     ): OrderItem @can(ability: "upsert") @upsert
     deleteOrderItem(id: ID!): OrderItem @can(ability: "delete") @delete
     restoreOrderItem(id: ID!): OrderItem @can(ability: "restore") @restore
-    forceDeleteCategoryOrderItem(id: ID!): OrderItem @can(ability: "forceDelete") @forceDelete
+    forceDeleteOrderItem(id: ID!): OrderItem @can(ability: "forceDelete") @forceDelete
 }

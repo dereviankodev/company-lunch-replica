@@ -19,7 +19,6 @@ class Cart extends Model
     public $fillable = [
         'user_id',
         'menu_id',
-        'price',
         'count'
     ];
 

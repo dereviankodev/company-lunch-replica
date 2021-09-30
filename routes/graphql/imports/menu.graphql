@@ -35,5 +35,5 @@ extend type Mutation {
     ): Menu @can(ability: "upsert") @upsert
     deleteMenu(id: ID!): Menu @can(ability: "delete") @delete
     restoreMenu(id: ID!): Menu @can(ability: "restore") @restore
-    forceDeleteCategoryMenu(id: ID!): Menu @can(ability: "forceDelete") @forceDelete
+    forceDeleteMenu(id: ID!): Menu @can(ability: "forceDelete") @forceDelete
 }

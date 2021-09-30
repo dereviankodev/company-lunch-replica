@@ -23,4 +23,10 @@
             {{ __('Dishes') }}
         </a>
     </li>
+    <li class="nav-item">
+        <a href="{{ route('admin.menus.index') }}"
+           class="nav-link{{ request()->routeIs('admin.menus.*') ? ' active' : '' }}">
+            {{ __('Menus') }}
+        </a>
+    </li>
 </ul>
