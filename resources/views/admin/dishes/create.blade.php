@@ -45,7 +45,7 @@
                     @endforeach;
                 </select>
                 <div class="input-group-append">
-                    <a href="{{ route('admin.categories.create') }}" class="btn btn-outline-success">{{ __('Create category') }}</a>
+                    <a href="{{ route('admin.categories.create') }}" class="btn btn-outline-success">{{ __('Add category') }}</a>
                 </div>
             </div>
             @if($errors->has('category_id'))

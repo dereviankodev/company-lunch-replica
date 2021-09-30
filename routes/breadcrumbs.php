@@ -93,7 +93,7 @@ Breadcrumbs::for('admin.menus.create', function (Crumbs $crumbs) {
 
 Breadcrumbs::for('admin.menus.show', function (Crumbs $crumbs, Menu $menu) {
     $crumbs->parent('admin.menus.index');
-    $crumbs->push($menu->dish->name, route('admin.menus.index', $menu));
+    $crumbs->push($menu->dish->name.' - '.$menu->actual_at->format('Y-m-d'), route('admin.menus.index', $menu));
 });
 
 Breadcrumbs::for('admin.menus.edit', function (Crumbs $crumbs, Menu $menu) {
