@@ -15,9 +15,22 @@ class OrderPolicy
         $entity = $arguments[0];
         $args = $arguments[1] ?? [];
 
-        return match ($name) {
-            'view', 'create' => $entity->isAdmin() || $entity->id == $args['id'],
-            'update', 'upsert', 'delete', 'restore', 'forceDelete' => $entity->isAdmin(),
-        };
+        switch ($name) {
+            case 'view':
+            case 'create':
+                $bool = $entity->isAdmin() || $entity->id == $args['id'];
+                break;
+            case 'update':
+            case 'upsert':
+            case 'delete':
+            case 'restore':
+            case 'forceDelete':
+                $bool = $entity->isAdmin();
+                break;
+            default:
+                $bool = false;
+        }
+
+        return $bool;
     }
 }
