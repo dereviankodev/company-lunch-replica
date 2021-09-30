@@ -36,5 +36,6 @@ extend type Mutation {
         price: Int!
         count: Int!
     ): Cart @can(ability: "upsert") @upsert
-    deleteCart(id: ID!): Cart @can(ability: "forceDelete") @forceDelete
+    deleteCart(id: ID!): Cart @can(ability: "delete") @forceDelete
+    clearCart(user_id: ID!): [Cart!]! @can(ability: "delete", injectArgs: true) @field(resolver: "CartMutator@forceDelete")
 }
