@@ -28,13 +28,14 @@
 
         <div class="form-group">
             <label for="is_admin" class="col-form-label">{{ __('Admin') }}</label>
-            <select name="is_admin" id="is_admin" class="form-control{{ $errors->has('is_admin') ? ' is_invalid' : '' }}">
-                    <option value="1"{{ old('is_admin', $user->is_admin) ? ' selected' : '' }}>
-                        {{ __('Yes') }}
-                    </option>
-                    <option value="0"{{ !old('is_admin', $user->is_admin) ? ' selected' : '' }}>
-                        {{ __('No') }}
-                    </option>
+            <select name="is_admin" id="is_admin"
+                    class="form-control{{ $errors->has('is_admin') ? ' is_invalid' : '' }}">
+                <option value="1"{{ old('is_admin', $user->is_admin) ? ' selected' : '' }}>
+                    {{ __('Yes') }}
+                </option>
+                <option value="0"{{ !old('is_admin', $user->is_admin) ? ' selected' : '' }}>
+                    {{ __('No') }}
+                </option>
             </select>
             @if($errors->has('is_admin'))
                 <span class="invalid-feedback"><strong>{{ $errors->first('is_admin') }}</strong></span>
