@@ -17,6 +17,7 @@ type Query {
 
 extend type Query @guard {
     users: [User!]! @all @softDeletes
+    recipients: [User!]! @all(scopes: ["recipients"]) @softDeletes
     usersPagination: [User!]! @paginate @softDeletes
     user(id: ID @eq): User @find @softDeletes
 }
