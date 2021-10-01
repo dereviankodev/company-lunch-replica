@@ -43,7 +43,7 @@
 
     <table class="table table-bordered">
         <thead>
-        <tr><th colspan="5">Cart positions</th></tr>
+        <tr><th colspan="6">Cart positions</th></tr>
         <tr>
             <th>Category</th>
             <th>Dish</th>
@@ -57,15 +57,15 @@
 
         @forelse($carts as $cart)
             <tr>
-                <td>{{ $cart->menu->dish->category->name }}</td>
-                <td>{{ $cart->menu->dish->name }}</td>
+                <td><a href="{{ route('admin.categories.show', $cart->menu->dish->category) }}">{{ $cart->menu->dish->category->name }}</a></td>
+                <td><a href="{{ route('admin.dishes.show', $cart->menu->dish) }}">{{ $cart->menu->dish->name }}</a></td>
                 <td>{{ $cart->menu->dish->ingredients }}</td>
                 <td>{{ $cart->menu->dish->weight }}</td>
                 <td>{{ $cart->menu->price }}</td>
                 <td>{{ $cart->count }}</td>
             </tr>
         @empty
-            <tr><td colspan="5">None</td></tr>
+            <tr><td colspan="6">None</td></tr>
         @endforelse
 
         </tbody>
@@ -80,10 +80,10 @@
             <th>Recipient</th>
             <th>Category</th>
             <th>Dish</th>
-            <th>Ingredients</th>
-            <th>Weight (g)</th>
             <th>Price</th>
             <th>Count</th>
+            <th>Created at</th>
+            <th>Updated at</th>
         </tr>
         </thead>
         <tbody>
@@ -95,15 +95,15 @@
                     @if($id !== $order->id)
                         @php($count = $order->orderItems->count() ?? 1)
                         <td rowspan="{{ $count }}">{{ $order->id }}</td>
-                        <td rowspan="{{ $count }}">{{ $user->name }}</td>
-                        <td rowspan="{{ $count }}">{{ $order->recipient->name ?? $user->name }}</td>
+                        <td rowspan="{{ $count }}"><a href="{{ route('admin.users.show', $user) }}">{{ $user->name }}</a></td>
+                        <td rowspan="{{ $count }}"><a href="{{ route('admin.users.show', $order->recipient ?? $user) }}">{{ $order->recipient->name ?? $user->name }}</a></td>
                     @endif
-                    <td>{{ $item->dish->category->name }}</td>
-                    <td>{{ $item->dish->name }}</td>
-                    <td>{{ $item->dish->ingredients }}</td>
-                    <td>{{ $item->dish->weight }}</td>
+                    <td><a href="{{ route('admin.categories.show', $item->dish->category) }}">{{ $item->dish->category->name }}</a></td>
+                    <td><a href="{{ route('admin.dishes.show', $item->dish) }}">{{ $item->dish->name }}</a></td>
                     <td>{{ $item->price }}</td>
                     <td>{{ $item->count }}</td>
+                    <td>{{ $item->created_at }}</td>
+                    <td>{{ $item->updated_at }}</td>
                 </tr>
                 @php($id = $order->id)
             @endforeach
