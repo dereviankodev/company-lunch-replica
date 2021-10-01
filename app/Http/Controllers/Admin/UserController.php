@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Users\StoreRequest;
 use App\Http\Requests\Admin\Users\UpdateRequest;
+use App\Models\Cart;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\View;
@@ -38,7 +40,10 @@ class UserController extends Controller
 
     public function show(User $user): View
     {
-        return view('admin.users.show', compact('user'));
+        $carts = Cart::whereUserId($user->id)->with('menu.dish.category')->get();
+        $orders = Order::whereCustomerId($user->id)->with(['orderItems.dish.category', 'recipient'])->get();
+
+        return view('admin.users.show', compact('user', 'carts', 'orders'));
     }
 
     public function edit(User $user)

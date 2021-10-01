@@ -55,7 +55,7 @@
         </thead>
         <tbody>
 
-        @forelse($user->carts as $cart)
+        @forelse($carts as $cart)
             <tr>
                 <td>{{ $cart->menu->dish->category->name }}</td>
                 <td>{{ $cart->menu->dish->name }}</td>
@@ -88,14 +88,15 @@
         </thead>
         <tbody>
 
-        @forelse($user->orderCustomers as $order)
+        @forelse($orders as $order)
             @php($id = null)
             @foreach($order->orderItems as $item)
                 <tr>
                     @if($id !== $order->id)
-                    <td rowspan="{{ $order->orderItems->count() ?? 1 }}">{{ $order->id }}</td>
-                    <td rowspan="{{ $order->orderItems->count() ?? 1 }}">{{ $user->name }}</td>
-                    <td rowspan="{{ $order->orderItems->count() ?? 1 }}">{{ $order->recipient->name ?? $user->name }}</td>
+                        @php($count = $order->orderItems->count() ?? 1)
+                        <td rowspan="{{ $count }}">{{ $order->id }}</td>
+                        <td rowspan="{{ $count }}">{{ $user->name }}</td>
+                        <td rowspan="{{ $count }}">{{ $order->recipient->name ?? $user->name }}</td>
                     @endif
                     <td>{{ $item->dish->category->name }}</td>
                     <td>{{ $item->dish->name }}</td>
