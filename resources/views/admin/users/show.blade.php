@@ -113,4 +113,6 @@
 
         </tbody>
     </table>
+
+    {{ $orders->links() }}
 @endsection
