@@ -10,14 +10,7 @@ use App\Models\{
     OrderItem,
     User
 };
-use App\Policies\{
-    CartPolicy,
-    CategoryPolicy,
-    DishPolicy,
-    MenuPolicy,
-    OrderPolicy,
-    UserPolicy,
-};
+use App\Policies\{CartPolicy, CategoryPolicy, DishPolicy, MenuPolicy, OrderItemPolicy, OrderPolicy, UserPolicy};
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -29,7 +22,7 @@ class AuthServiceProvider extends ServiceProvider
          Dish::class => DishPolicy::class,
          Menu::class => MenuPolicy::class,
          Order::class => OrderPolicy::class,
-         OrderItem::class => OrderPolicy::class,
+         OrderItem::class => OrderItemPolicy::class,
          Cart::class => CartPolicy::class,
     ];
 

@@ -18,19 +18,15 @@ class OrderPolicy
         switch ($name) {
             case 'view':
             case 'create':
-                $bool = $entity->isAdmin() || $entity->id == $args['customer_id'];
-                break;
+                return $entity->isAdmin() || $entity->id == $args['customer_id'];
             case 'update':
             case 'upsert':
             case 'delete':
             case 'restore':
             case 'forceDelete':
-                $bool = $entity->isAdmin();
-                break;
+                return $entity->isAdmin();
             default:
-                $bool = false;
+                return false;
         }
-
-        return $bool;
     }
 }

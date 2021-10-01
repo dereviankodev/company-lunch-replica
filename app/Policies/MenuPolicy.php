@@ -14,8 +14,16 @@ class MenuPolicy
         /** @var User $entity */
         $entity = $arguments[0];
 
-        return match ($name) {
-            'create', 'update', 'upsert', 'delete', 'restore', 'forceDelete' => $entity->isAdmin(),
-        };
+        switch ($name) {
+            case 'create':
+            case 'update':
+            case 'upsert':
+            case 'delete':
+            case 'restore':
+            case 'forceDelete':
+                return $entity->isAdmin();
+            default:
+                return false;
+        }
     }
 }

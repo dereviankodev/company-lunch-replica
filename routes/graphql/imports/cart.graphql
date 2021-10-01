@@ -19,19 +19,19 @@ extend type Mutation {
         user_id: ID!
         menu_id: ID!
         count: Int!
-    ): Cart! @can(ability: "create") @create
+    ): Cart! @can(ability: "create", injectArgs: true) @create
     updateCart(
         id: ID!
         user_id: ID
         menu_id: ID
         count: Int
-    ): Cart @can(ability: "update") @update
+    ): Cart @can(ability: "update", injectArgs: true) @update
     upsertCart(
         id: ID!
         user_id: ID!
         menu_id: ID!
         count: Int!
-    ): Cart @can(ability: "upsert") @upsert
-    deleteCart(id: ID!): Cart @can(ability: "delete") @forceDelete
+    ): Cart @can(ability: "upsert", injectArgs: true) @upsert
+    deleteCart(id: ID!): Cart @can(ability: "delete", injectArgs: true) @forceDelete
     clearCart(user_id: ID!): [Cart!]! @can(ability: "delete", injectArgs: true) @field(resolver: "CartMutator@forceDelete")
 }
