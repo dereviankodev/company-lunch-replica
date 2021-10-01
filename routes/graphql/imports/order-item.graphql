@@ -21,7 +21,7 @@ extend type Mutation {
         dish_id: ID!
         price: Int!
         count: Int!
-    ): OrderItem! @can(ability: "create") @create
+    ): OrderItem! @can(ability: "create", injectArgs: true) @create
     updateOrderItem(
         id: ID!
         order_id: ID

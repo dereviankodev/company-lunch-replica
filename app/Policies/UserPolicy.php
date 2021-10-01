@@ -15,9 +15,20 @@ class UserPolicy
         $entity = $arguments[0];
         $args = $arguments[1] ?? [];
 
-        return match ($name) {
-            'update', 'upsert' => $entity->isAdmin() || $entity->id == $args['id'],
-            'delete', 'restore', 'forceDelete' => $entity->isAdmin(),
-        };
+        switch ($name) {
+            case 'update':
+            case 'upsert':
+                $bool = $entity->isAdmin() || $entity->id == $args['id'];
+                break;
+            case 'delete':
+            case 'restore':
+            case 'forceDelete':
+                $bool = $entity->isAdmin();
+                break;
+            default:
+                $bool = false;
+        }
+
+        return $bool;
     }
 }

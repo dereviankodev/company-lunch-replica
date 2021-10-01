@@ -16,8 +16,18 @@ class CartPolicy
         $entity = $arguments[0];
         $args = $arguments[1] ?? [];
 
-        return match ($name) {
-            'view', 'create', 'update', 'upsert', 'delete' => $entity->isAdmin() || $entity->id == $args['id']
-        };
+        switch ($name) {
+            case 'view':
+            case 'create':
+            case 'update':
+            case 'upsert':
+            case 'delete':
+                $bool = $entity->isAdmin() || $entity->id == $args['customer_id'];
+                break;
+            default:
+                $bool = false;
+        }
+
+        return $bool;
     }
 }
