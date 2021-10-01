@@ -15,6 +15,10 @@ extend type Query @guard {
 }
 
 extend type Mutation {
+    makeAutoOrder(
+        customer_id: ID!
+        recipient_id: ID
+    ): Order! @can(ability: "create", injectArgs: true) @field(resolver: "OrderMutator@makeAutoOrder")
     createOrder(
         customer_id: ID!
         recipient_id: ID
