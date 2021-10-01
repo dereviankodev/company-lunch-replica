@@ -41,7 +41,7 @@ class UserController extends Controller
     public function show(User $user): View
     {
         $carts = Cart::whereUserId($user->id)->with('menu.dish.category')->get();
-        $orders = Order::whereCustomerId($user->id)->with(['orderItems.dish.category', 'recipient'])->get();
+        $orders = Order::whereCustomerId($user->id)->with(['orderItems.dish.category', 'recipient'])->paginate(20);
 
         return view('admin.users.show', compact('user', 'carts', 'orders'));
     }
