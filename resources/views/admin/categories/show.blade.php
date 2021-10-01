@@ -12,63 +12,71 @@
         </form>
     </div>
 
-    <table class="table table-bordered table-striped">
-        <tbody>
-        <tr>
-            <th>ID</th>
-            <td>{{ $category->id }}</td>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <td>{{ $category->name }}</td>
-        </tr>
-        <tr>
-            <th>Image</th>
-            <td>
-                @if(!is_null($category->img_path))
-                    <img src="{{ asset($category->img_path) }}" alt="{{ $category->name }}"
-                         width="765" height="70" class="img-fluid">
-                @else
-                    {{ __('No image') }}
-                @endif
-            </td>
-        </tr>
-        <tr>
-            <th>Created at</th>
-            <td>{{ $category->created_at->format('Y-m-d H:i:s') }}</td>
-        </tr>
-        <tr>
-            <th>Updated at</th>
-            <td>{{ $category->updated_at->format('Y-m-d H:i:s') }}</td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <tbody>
+            <tr>
+                <th>ID</th>
+                <td>{{ $category->id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ $category->name }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>
+                    @if(!is_null($category->img_path))
+                        <img src="{{ asset($category->img_path) }}" alt="{{ $category->name }}"
+                             width="765" height="70" class="img-fluid">
+                    @else
+                        {{ __('No image') }}
+                    @endif
+                </td>
+            </tr>
+            <tr>
+                <th>Created at</th>
+                <td>{{ $category->created_at->format('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Updated at</th>
+                <td>{{ $category->updated_at->format('Y-m-d H:i:s') }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
     <p><a href="{{ route('admin.dishes.create') }}" class="btn btn-success">Add Dish</a></p>
 
-    <table class="table table-bordered">
-        <thead>
-        <tr><th colspan="4">Dishes</th></tr>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Ingredients</th>
-            <th>Weight (g)</th>
-        </tr>
-        </thead>
-        <tbody>
-
-        @forelse($category->dishes as $dish)
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
             <tr>
-                <td>{{ $dish->id }}</td>
-                <td><a href="{{ route('admin.dishes.show', $dish) }}">{{ $dish->name }}</a></td>
-                <td>{{ $dish->ingredients }}</td>
-                <td>{{ $dish->weight }}</td>
+                <th colspan="4">Dishes</th>
             </tr>
-        @empty
-            <tr><td colspan="4">None</td></tr>
-        @endforelse
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Ingredients</th>
+                <th>Weight (g)</th>
+            </tr>
+            </thead>
+            <tbody>
 
-        </tbody>
-    </table>
+            @forelse($category->dishes as $dish)
+                <tr>
+                    <td>{{ $dish->id }}</td>
+                    <td><a href="{{ route('admin.dishes.show', $dish) }}">{{ $dish->name }}</a></td>
+                    <td>{{ $dish->ingredients }}</td>
+                    <td>{{ $dish->weight }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4">None</td>
+                </tr>
+            @endforelse
+
+            </tbody>
+        </table>
+    </div>
 @endsection

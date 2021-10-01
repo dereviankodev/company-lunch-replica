@@ -33,8 +33,8 @@
             <div class="input-group{{ $errors->has('image') ? ' is-invalid' : '' }}">
                 <div class="custom-file">
                     <input type="file" name="image" id="image"
-                        class="custom-file-input{{ $errors->has('image') ? ' is-invalid' : '' }}"
-                        size="256000" accept=".jpg, .jpeg, .png, .webp">
+                           class="custom-file-input{{ $errors->has('image') ? ' is-invalid' : '' }}"
+                           size="256000" accept=".jpg, .jpeg, .png, .webp">
                     <label class="custom-file-label" for="image">Choose image...</label>
                 </div>
             </div>
