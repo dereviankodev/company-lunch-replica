@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -14,23 +15,22 @@ class OrderItemPolicy
         /** @var User $entity */
         $entity = $arguments[0];
         $args = $arguments[1] ?? [];
+        /** @var Order $order */
+        $order = Order::where('id', $args['order_id'])->with('customer')->first();
+        $id = $order->customer->id;
 
         switch ($name) {
             case 'view':
             case 'create':
-                $bool = $entity->isAdmin() || $entity->id == $args['customer_id'];
-                break;
+                return $entity->isAdmin() || $entity->id == $id;
             case 'update':
             case 'upsert':
             case 'delete':
             case 'restore':
             case 'forceDelete':
-                $bool = $entity->isAdmin();
-                break;
+                return $entity->isAdmin();
             default:
-                $bool = false;
+                return false;
         }
-
-        return $bool;
     }
 }

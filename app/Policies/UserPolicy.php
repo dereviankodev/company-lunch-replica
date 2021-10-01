@@ -18,17 +18,13 @@ class UserPolicy
         switch ($name) {
             case 'update':
             case 'upsert':
-                $bool = $entity->isAdmin() || $entity->id == $args['id'];
-                break;
+                return $entity->isAdmin() || $entity->id == $args['id'];
             case 'delete':
             case 'restore':
             case 'forceDelete':
-                $bool = $entity->isAdmin();
-                break;
+                return $entity->isAdmin();
             default:
-                $bool = false;
+                return false;
         }
-
-        return $bool;
     }
 }

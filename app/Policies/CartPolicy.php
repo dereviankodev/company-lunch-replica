@@ -22,12 +22,9 @@ class CartPolicy
             case 'update':
             case 'upsert':
             case 'delete':
-                $bool = $entity->isAdmin() || $entity->id == $args['customer_id'];
-                break;
+                return $entity->isAdmin() || $entity->id == $args['customer_id'];
             default:
-                $bool = false;
+                return false;
         }
-
-        return $bool;
     }
 }

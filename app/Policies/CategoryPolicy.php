@@ -21,12 +21,9 @@ class CategoryPolicy
             case 'delete':
             case 'restore':
             case 'forceDelete':
-                $bool = $entity->isAdmin();
-                break;
+                return $entity->isAdmin();
             default:
-                $bool = false;
+                return false;
         }
-
-        return $bool;
     }
 }
