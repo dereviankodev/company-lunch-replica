@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\{
-    Factories\HasFactory,
-    Relations\HasMany,
-    SoftDeletes
-};
+use Illuminate\Database\Eloquent\{Builder, Factories\HasFactory, Relations\HasMany, SoftDeletes};
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\Contracts\HasApiTokens as HasApiTokensContract;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -63,5 +60,15 @@ class User extends Authenticatable implements HasApiTokensContract
     public function isAdmin(): bool
     {
         return $this->is_admin === static::ROLE_ADMIN;
+    }
+
+    public function scopeRecipients(Builder $query): Builder
+    {
+        $guard = Auth::guard();
+
+        /** @var User|null $user */
+        $user = $guard->user();
+
+        return $query->where('id', '!=',  $user->id);
     }
 }
