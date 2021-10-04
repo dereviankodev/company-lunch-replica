@@ -11,7 +11,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <script async src="https://telegram.org/js/telegram-widget.js?15"
                             data-telegram-login="QuartSoftLunchBot" data-size="large" data-radius="8"
-                            data-onauth="onTelegramAuth(user)" data-request-access="write"
+{{--                            data-onauth="onTelegramAuth(user)" data-request-access="write"--}}
                             data-auth-url="{{ route('dashboard.telegram.auth') }}"></script>
 {{--                    <script type="text/javascript">--}}
 {{--                        function onTelegramAuth(user) {--}}
