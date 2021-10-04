@@ -15,6 +15,10 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(function () {
+    Route::get('', function () { return view('dashboard'); })->name('index');
+});
+
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:admin'])->group(function () {
     Route::get('', Admin::class)->name('home');
     Route::resource('users', UserController::class);
