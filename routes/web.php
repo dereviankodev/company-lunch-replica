@@ -11,12 +11,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
 Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(function () {
     Route::get('', function () { return view('dashboard'); })->name('index');
+    Route::get('telegram/auth', function (\Illuminate\Http\Request $request) {
+        var_dump($request->all());
+    })->name('telegram.auth');
 });
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:admin'])->group(function () {
