@@ -36,8 +36,8 @@ class TelegramController extends Controller
         $user->telegramUser()->delete();
         $cookie = $request->cookie('stel_token');
         return redirect()->withoutCookie($cookie, '/', 'oauth.telegram.org')->route('dashboard.home', [
-            'user' => $user,
-            'message' => __('Telegram account has been successfully unlinked from your account')
+            'user' => $user/*,
+            'message' => __('Telegram account has been successfully unlinked from your account')*/
         ]);
     }
 }
