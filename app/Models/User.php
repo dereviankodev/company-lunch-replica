@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\{Builder, Factories\HasFactory, Relations\HasMany, SoftDeletes};
+use Illuminate\Contracts\Auth\Authenticatable as ContractAuthenticatable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
@@ -69,11 +70,16 @@ class User extends Authenticatable implements HasApiTokensContract
 
     public function scopeRecipients(Builder $query): Builder
     {
-        $guard = Auth::guard();
-
         /** @var User|null $user */
-        $user = $guard->user();
+        $user = $this->authGuardUser();
 
         return $query->where('id', '!=',  $user->id);
+    }
+
+    public function authGuardUser(): ?ContractAuthenticatable
+    {
+        $guard = Auth::guard();
+
+        return $guard->user();
     }
 }
