@@ -8,7 +8,6 @@ use App\Http\Requests\Admin\Categories\UpdateRequest;
 use App\Models\Category;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
 
@@ -44,9 +43,6 @@ class CategoryController extends Controller
         return view('admin.categories.show', compact('category'));
     }
 
-    /**
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     */
     public function edit(Category $category): View
     {
         return view('admin.categories.edit', compact('category'));
