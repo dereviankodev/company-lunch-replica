@@ -4,11 +4,17 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\Telegram\LinkRequest;
+use App\Models\TelegramUser;
+use Exception;
 
 class TelegramController extends Controller
 {
-    public function __invoke(LinkRequest $request)
+    /**
+     * @throws Exception
+     */
+    public function __invoke(LinkRequest $request, TelegramUser $telegramUser)
     {
-        var_dump($request->all());
+        $data = $telegramUser->checkTelegramAuthorization($request->all());
+        var_dump($data);
     }
 }
