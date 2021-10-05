@@ -1,4 +1,4 @@
-function onTelegramAuth(telegram, url) {
+window.onTelegramAuth = function(telegram, url) {
     axios({
         method: 'post',
         url: url,

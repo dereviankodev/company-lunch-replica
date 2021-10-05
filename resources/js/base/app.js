@@ -1,5 +1,5 @@
 require('./bootstrap');
 
-require('alpinejs');
-
 require('./telegram');
+
+require('alpinejs');
