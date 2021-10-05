@@ -57,6 +57,11 @@ class User extends Authenticatable implements HasApiTokensContract
         return $this->hasMany(Order::class, 'recipient_id');
     }
 
+    public function telegramUsers(): HasMany
+    {
+        return $this->hasMany(TelegramUser::class);
+    }
+
     public function isAdmin(): bool
     {
         return $this->is_admin === static::ROLE_ADMIN;

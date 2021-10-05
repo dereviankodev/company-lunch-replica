@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DishController;
 use App\Http\Controllers\Admin\HomeController as Admin;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Dashboard\TelegramController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -12,10 +13,11 @@ Route::get('/', function () {
 });
 
 Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(function () {
-    Route::get('', function () { return view('dashboard'); })->name('index');
-    Route::get('telegram/auth', function (\Illuminate\Http\Request $request) {
-        var_dump($request->all());
-    })->name('telegram.auth');
+    Route::get('', function () { return view('dashboard'); })->name('home');
+});
+
+Route::prefix('telegram')->name('telegram.')->middleware(['auth'])->group(function () {
+    Route::post('link', TelegramController::class)->name('link');
 });
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:admin'])->group(function () {
