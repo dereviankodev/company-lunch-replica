@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Exception;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -59,16 +58,27 @@ class TelegramUser extends Model
      */
     public function checkTelegramData(string $checkHash, string $dataCheckString)
     {
+        $hash = $this->hashBySecret($dataCheckString);
+
+        if (strcmp($hash, $checkHash) !== 0) {
+            throw new Exception('Data is NOT from Telegram');
+        }
+    }
+
+    /**
+     * @param string|integer $data
+     * @return string
+     * @throws Exception
+     */
+    public function hashBySecret($data): string
+    {
         if (is_null($botToken = config('telegram-link.token'))) {
             throw new Exception('No telegram token');
         }
 
         $secretKey = hash('sha256', $botToken, true);
-        $hash = hash_hmac('sha256', $dataCheckString, $secretKey);
 
-        if (strcmp($hash, $checkHash) !== 0) {
-            throw new Exception('Data is NOT from Telegram');
-        }
+        return hash_hmac('sha256', $data, $secretKey);
     }
 
     /**
