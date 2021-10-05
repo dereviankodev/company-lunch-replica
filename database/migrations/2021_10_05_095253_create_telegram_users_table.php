@@ -10,7 +10,7 @@ class CreateTelegramUsersTable extends Migration
     {
         Schema::create('telegram_users', function (Blueprint $table) {
             $table->string('id')->primary()->unique();
-            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('user_id')->unique()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('username');
