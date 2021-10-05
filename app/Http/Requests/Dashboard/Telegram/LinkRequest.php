@@ -14,12 +14,12 @@ class LinkRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'integer', 'max:11'],
+            'id' => ['required', 'integer'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255'],
             'photo_url' => ['required', 'string', 'max:255'],
-            'auth_date' => ['required', 'integer', 'max:11'],
+            'auth_date' => ['required', 'integer'],
             'hash' => ['required', 'string', 'max:255'],
         ];
     }
