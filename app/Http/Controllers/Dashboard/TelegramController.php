@@ -21,8 +21,7 @@ class TelegramController extends Controller
         $user = $user->authGuardUser();
         $data = $telegramUser->checkTelegramAuthorization($request->all());
         $data['id'] = $telegramUser->hashBySecret($data['id']);
-        $collectData = collect($data);
-        $collectData->push(['user_id' => $user->id]);
+        $collectData = collect($data)->merge(['user_id' => $user->id]);
 
         $telegramUser::updateOrCreate(
             ['id' => $collectData->pull('id')],
