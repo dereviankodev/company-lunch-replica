@@ -23,7 +23,7 @@ class TelegramUser extends Model
     ];
 
     protected $casts = [
-        'auth_date' => 'datetime:U'
+        'auth_date' => 'datetime:Y-m-d H:i:s'
     ];
 
     public function user(): BelongsTo
