@@ -17,9 +17,7 @@ class TelegramController extends Controller
     {
         $data = $telegramUser->checkTelegramAuthorization($request->all());
         $data['id'] = $telegramUser->hashBySecret($data['id']);
-        /** @var User|null $user */
-        $user = $user->authGuardUser();
-        $data['user_id'] = $user->id ?? null;
+        $data['user_id'] = $user->id;
         var_dump($data);
     }
 }
