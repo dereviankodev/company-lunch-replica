@@ -4,9 +4,6 @@ namespace App\Http\Requests\Dashboard\Telegram;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-/**
- * @property $image
- */
 class LinkRequest extends FormRequest
 {
     public function authorize(): bool
@@ -17,12 +14,12 @@ class LinkRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required', 'string', 'max:255'],
+            'id' => ['required', 'integer', 'max:11'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255'],
             'photo_url' => ['required', 'string', 'max:255'],
-            'auth_date' => ['required', 'string', 'max:255'],
+            'auth_date' => ['required', 'integer', 'max:11'],
             'hash' => ['required', 'string', 'max:255'],
         ];
     }
