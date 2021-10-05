@@ -9,6 +9,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
 class TelegramController extends Controller
 {
@@ -29,16 +30,13 @@ class TelegramController extends Controller
             $collectData->all()
         );
 
-        return redirect()->route('dashboard.home');
+        return response('', 200);
     }
 
-    public function unlink(Request $request,User $user): RedirectResponse
+    public function unlink(User $user): RedirectResponse
     {
         $user->telegramUser()->delete();
-        $cookie = $request->cookie('stel_token');
-        return redirect()->withoutCookie($cookie, '/', 'oauth.telegram.org')->route('dashboard.home', [
-            'user' => $user/*,
-            'message' => __('Telegram account has been successfully unlinked from your account')*/
-        ]);
+        $cookie = Cookie::forget('stel_token', '/', 'oauth.telegram.org');
+        return redirect()->route('dashboard.home')->withCookie($cookie);
     }
 }

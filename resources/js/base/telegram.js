@@ -15,9 +15,8 @@ window.onTelegramAuth = function(telegram, url) {
             "Content-type": "application/json; charset=UTF-8"
         }
     })
-    .then(function (response) {
-        console.log("Server response received successfully!");
-        console.log(response.data);
+    .then(function () {
+        document.location.reload();
     })
     .catch(function (error) {
         console.log(error);
