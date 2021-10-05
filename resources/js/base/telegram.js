@@ -3,7 +3,6 @@ window.onTelegramAuth = function(telegram, url) {
         method: 'post',
         url: url,
         data: {
-            "_token": document.querySelector('meta[name="csrf-token"]').content,
             "id": telegram.id,
             "first_name": telegram.first_name,
             "last_name": telegram.last_name,
