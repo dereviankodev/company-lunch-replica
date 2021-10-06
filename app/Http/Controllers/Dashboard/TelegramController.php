@@ -7,11 +7,9 @@ use App\Http\Requests\Dashboard\Telegram\LinkRequest;
 use App\Models\TelegramUser;
 use App\Models\User;
 use Exception;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
@@ -59,7 +57,7 @@ class TelegramController extends Controller
         }
 
         /** @var TelegramUser $telegramUser */
-        $telegramUser = TelegramUser::with('user')->findOrFail($request->id);
+        $telegramUser = TelegramUser::with('user')->findOrFail($request->get('id'));
         $token = ['token' => $telegramUser->user->createToken(TelegramUser::BOT_NAME)->plainTextToken];
 
         return response()->json(['data' => $token]);
