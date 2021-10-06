@@ -6,8 +6,21 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property string $id
+ * @property integer $user_id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $username
+ * @property string $photo_url
+ * @property string $auth_date
+ *
+ * @property User $user
+ */
 class TelegramUser extends Model
 {
+    public const BOT_NAME = 'QuartSoftLunchBot';
+
     protected $fillable = [
         'id',
         'user_id',

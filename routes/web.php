@@ -19,6 +19,10 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(func
 Route::prefix('telegram')->name('telegram.')->middleware(['auth'])->group(function () {
     Route::post('link', [TelegramController::class, 'link'])->name('link');
     Route::delete('unlink/{user}', [TelegramController::class, 'unlink'])->name('unlink');
+    Route::get('token', [TelegramController::class, 'token'])
+        ->withoutMiddleware(['auth'])
+        ->middleware(['throttle'])
+        ->name('token');
 });
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:admin'])->group(function () {
