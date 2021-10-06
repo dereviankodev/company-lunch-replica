@@ -8,8 +8,6 @@ use App\Models\TelegramUser;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
 
 class TelegramController extends Controller
 {
@@ -36,7 +34,7 @@ class TelegramController extends Controller
     public function unlink(User $user): RedirectResponse
     {
         $user->telegramUser()->delete();
-        $cookie = Cookie::forget('stel_token', '/', 'oauth.telegram.org');
-        return redirect()->route('dashboard.home')->withCookie($cookie);
+
+        return redirect()->route('dashboard.home');
     }
 }
