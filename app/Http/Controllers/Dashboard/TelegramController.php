@@ -7,7 +7,13 @@ use App\Http\Requests\Dashboard\Telegram\LinkRequest;
 use App\Models\TelegramUser;
 use App\Models\User;
 use Exception;
+use Illuminate\Http\Client\RequestException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class TelegramController extends Controller
 {
@@ -34,7 +40,28 @@ class TelegramController extends Controller
     public function unlink(User $user): RedirectResponse
     {
         $user->telegramUser()->delete();
+        $user->tokens->where('name', TelegramUser::BOT_NAME)->each(function ($token) {
+            $token->delete();
+        });
 
         return redirect()->route('dashboard.home');
+    }
+
+    public function token(Request $request): JsonResponse
+    {
+        try {
+            $request->validate([
+                'id' => 'required|string|size:64|exists:telegram_users'
+            ]);
+        } catch (ValidationException $e) {
+            Log::debug($e->getMessage(), ['code' => $e->getCode(), 'errors' => $e->errors(), 'file' => static::class]);
+            abort(404);
+        }
+
+        /** @var TelegramUser $telegramUser */
+        $telegramUser = TelegramUser::with('user')->findOrFail($request->id);
+        $token = ['token' => $telegramUser->user->createToken(TelegramUser::BOT_NAME)->plainTextToken];
+
+        return response()->json(['data' => $token]);
     }
 }
