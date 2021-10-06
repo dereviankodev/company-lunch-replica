@@ -15,12 +15,12 @@
                                 data-telegram-login="QuartSoftLunchBot" data-size="large" data-radius="8"
                                 data-onauth="onTelegramAuth(user, '{{ route('telegram.link') }}')"
                                 data-request-access="write"></script>
-                        <p class="underline text-sm text-red-600 hover:text-red-900 ml-3">
+                        <p class="underline text-sm text-red-600 hover:text-red-900 mt-3">
                             If, after unlinking your account, you see your photo and want to link
                             another account, you can delete the Telegram cookie in the browser or terminate the
                             session in the Telegram client to link another account.
                         </p>
-                        <p class="underline text-sm text-red-600 hover:text-red-900 ml-3">
+                        <p class="underline text-sm text-red-600 hover:text-red-900 mt-3">
                             Otherwise, just ignore this fact. Your account is no longer linked to your Telegram account.
                         </p>
                     @else
@@ -31,7 +31,7 @@
                                 <img class="w-12 h-12" src="{{ $user->telegramUser->photo_url }}"
                                      alt="{{ '@'.$user->telegramUser->username }}">
                                 <a class="underline text-sm text-grey-600 hover:text-grey-900 ml-3"
-                                   href="{{ 'https://t.me/@'.$user->telegramUser->username }}">
+                                   href="{{ 'https://t.me/'.$user->telegramUser->username }}">
                                     {{ $user->telegramUser->first_name }}
                                     {{ $user->telegramUser->last_name }}
                                 </a>
