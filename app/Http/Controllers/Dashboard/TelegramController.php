@@ -45,7 +45,27 @@ class TelegramController extends Controller
         return redirect()->route('dashboard.home');
     }
 
-    public function token(Request $request): JsonResponse
+    public function familiarUser(Request $request): JsonResponse
+    {
+        $this->validateId($request);
+        $data = ['in_system' => true];
+
+        return response()->json(['data' => $data]);
+    }
+
+    public function issuingToken(Request $request): JsonResponse
+    {
+        $this->validateId($request);
+        $id = $request->get('id');
+
+        /** @var TelegramUser $telegramUser */
+        $telegramUser = TelegramUser::with('user')->findOrFail($id);
+        $token = ['token' => $telegramUser->user->createToken(TelegramUser::BOT_NAME)->plainTextToken];
+
+        return response()->json(['data' => $token]);
+    }
+
+    private function validateId(Request $request): void
     {
         try {
             $request->validate([
@@ -55,11 +75,5 @@ class TelegramController extends Controller
             Log::debug($e->getMessage(), ['code' => $e->getCode(), 'errors' => $e->errors(), 'file' => static::class]);
             abort(404);
         }
-
-        /** @var TelegramUser $telegramUser */
-        $telegramUser = TelegramUser::with('user')->findOrFail($request->get('id'));
-        $token = ['token' => $telegramUser->user->createToken(TelegramUser::BOT_NAME)->plainTextToken];
-
-        return response()->json(['data' => $token]);
     }
 }
