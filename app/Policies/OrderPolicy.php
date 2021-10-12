@@ -13,12 +13,11 @@ class OrderPolicy
     {
         /** @var User $entity */
         $entity = $arguments[0];
-        $args = $arguments[1] ?? [];
 
         switch ($name) {
             case 'view':
             case 'create':
-                return $entity->isAdmin() || $entity->id == $args['customer_id'];
+            return isset($entity);
             case 'update':
             case 'upsert':
             case 'delete':
