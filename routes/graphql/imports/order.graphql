@@ -16,24 +16,6 @@ extend type Query @guard {
 
 extend type Mutation {
     makeAutoOrder(
-        customer_id: ID!
         recipient_id: ID
-    ): Order! @can(ability: "create", injectArgs: true) @field(resolver: "OrderMutator@makeAutoOrder")
-    createOrder(
-        customer_id: ID!
-        recipient_id: ID
-    ): Order! @can(ability: "create", injectArgs: true) @create
-    updateOrder(
-        id: ID!
-        customer_id: ID
-        recipient_id: ID
-    ): Order @can(ability: "update") @update
-    upsertOrder(
-        id: ID!
-        customer_id: ID!
-        recipient_id: ID!
-    ): Order @can(ability: "upsert") @upsert
-    deleteOrder(id: ID!): Order @can(ability: "delete") @delete
-    restoreOrder(id: ID!): Order @can(ability: "restore") @restore
-    forceDeleteOrder(id: ID!): Order @can(ability: "forceDelete") @forceDelete
+    ): Order! @field(resolver: "OrderMutator@makeAutoOrder")
 }
