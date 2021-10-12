@@ -7,28 +7,23 @@ use Illuminate\Support\Facades\Auth;
 
 class CartMutator
 {
-    private int $user_id;
-
-    public function __construct(Auth $auth)
-    {
-        $this->user_id = $auth::guard()->user()->getAuthIdentifier();
-    }
-
     public function upsert($root, array $args)
     {
+        $user_id = Auth::guard()->user()->getAuthIdentifier();
         $menu_id = $args['menu_id'];
         $count = $args['count'];
 
         return Cart::updateOrCreate(
-            ['user_id' => $this->user_id, 'menu_id' => $menu_id],
+            ['user_id' => $user_id, 'menu_id' => $menu_id],
             ['count' => $count]
         );
     }
 
     public function forceDelete($root, array $args)
     {
-        $carts = Cart::where('user_id', $this->user_id)->get();
-        Cart::where('user_id', $this->user_id)->forceDelete();
+        $user_id = Auth::guard()->user()->getAuthIdentifier();
+        $carts = Cart::where('user_id', $user_id)->get();
+        Cart::where('user_id', $user_id)->forceDelete();
 
         return $carts;
     }
