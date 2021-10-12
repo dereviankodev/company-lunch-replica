@@ -14,7 +14,6 @@ class CartPolicy
     {
         /** @var User $entity */
         $entity = $arguments[0];
-        $args = $arguments[1] ?? [];
 
         switch ($name) {
             case 'view':
@@ -22,7 +21,7 @@ class CartPolicy
             case 'update':
             case 'upsert':
             case 'delete':
-                return $entity->isAdmin() || $entity->id == $args['customer_id'];
+                return isset($entity);
             default:
                 return false;
         }
