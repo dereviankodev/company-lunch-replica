@@ -18,4 +18,7 @@ extend type Mutation {
     makeAutoOrder(
         recipient_id: ID
     ): Order! @field(resolver: "OrderMutator@makeAutoOrder")
+    deleteOrder(id: ID!): Order @can(ability: "delete") @delete
+    restoreOrder(id: ID!): Order @can(ability: "restore") @restore
+    forceDeleteOrder(id: ID!): Order @can(ability: "forceDelete") @forceDelete
 }
