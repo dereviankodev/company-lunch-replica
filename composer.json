@@ -8,6 +8,7 @@
         "php": "^7.3|^8.0",
         "daniel-de-wit/lighthouse-sanctum": "^1.4",
         "diglactic/laravel-breadcrumbs": "^7.0.1",
+        "doctrine/dbal": "^3.1",
         "fruitcake/laravel-cors": "^v2.0.4",
         "guzzlehttp/guzzle": "^7.3.0",
         "laravel/framework": "^8.62.0",
