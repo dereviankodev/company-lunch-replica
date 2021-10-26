@@ -17,6 +17,6 @@ class MeIsAdmin
         /** @var User $user */
         $user = $guard->user();
 
-        return $user->is_admin;
+        return $user->is_admin ?? false;
     }
 }
