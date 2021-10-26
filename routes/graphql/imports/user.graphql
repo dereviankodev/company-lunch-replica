@@ -13,6 +13,7 @@ type User {
 
 type Query {
     me: User @auth
+    amIAdmin: Boolean @field(resolver: "AmIAdministrator")
 }
 
 extend type Query @guard {
